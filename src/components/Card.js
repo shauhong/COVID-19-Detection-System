@@ -11,6 +11,7 @@ import { useWideCardMediaStyles } from '@mui-treasury/styles/cardMedia/wide';
 import { useN01TextInfoContentStyles } from '@mui-treasury/styles/textInfoContent/n01';
 import { useBouncyShadowStyles } from '@mui-treasury/styles/shadow/bouncy';
 import {Grid} from '@material-ui/core';
+import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -63,9 +64,12 @@ export default function PatientCard(props){
               heading={props.name}
               body={status}
             />
-            <Button color={'primary'} fullWidth className={styles.cta}>
-              More Details <ChevronRightRounded />
-            </Button>
+            <Link to = '/patients/1'>
+              <Button color={'primary'} fullWidth className={styles.cta}>
+                More Details <ChevronRightRounded />
+              </Button>
+            </Link>
+            
           </CardContent>
         </Card>
       );
