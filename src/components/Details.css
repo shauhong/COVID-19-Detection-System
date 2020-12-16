@@ -1,0 +1,127 @@
+.page{
+    margin: 20px;
+    padding-bottom: 20px;
+    border: 1px solid #CCC;
+}
+
+.image{
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+div{
+    display: block;
+}
+
+.header{
+    display: block;
+    box-sizing: content-box;
+    position: relative;
+    min-height: 40px;
+    background: #f7f7f7;
+    background-image: -webkit-linear-gradient(top, #ffffff 0%, #eeeeee 100%);
+    background-image: -o-linear-gradient(top, #ffffff 0%, #eeeeee 100%);
+    background-image: linear-gradient(to bottom, #ffffff 0%, #eeeeee 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffeeeeee', GradientType=0);
+    color: #4387b8;
+    border-bottom: 1px solid #DDD;
+    padding-left: 12px;
+}
+
+.header > .title{
+    line-height: 36px;
+    padding-top: 23px;
+    margin: 0;
+    display: inline;
+    font-size: 20px;
+}
+
+.title h4{
+    padding: 15px;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.title{
+    line-height: 36px;
+    padding: 0;
+    margin: 0;
+    display: inline;
+}
+
+
+.widget-box{
+    display: table;
+}
+
+.table{
+    margin-top: 40px;
+    border-radius: 5px 5px 0;
+    width: 55%;
+    border-collapse: collapse;
+    font-family: sans-serif;
+    color: #4d4d4d;
+}
+
+.table th{
+    padding: 15px;
+}
+
+.table tr{
+    width: 100%;
+}
+
+.table tr:nth-child(even){
+    background-color: #f1f5fd;
+}
+
+.buttons{
+    margin-left: 10px;
+    display: inline-block;
+    padding: 0 10px;
+    line-height: 37px;
+    float: right;
+    position: relative;
+}
+
+
+.editButton{
+    margin: 5px;
+}
+
+.editButton:hover{
+    box-shadow: 0 6px 6px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.deleteButton:hover{
+    box-shadow: 0 6px 6px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+
+
+table, th, td{
+    margin: 20px;
+    border: 1px solid rgb(191, 221, 245); 
+    border-collapse: collapse;    
+}
+
+
+.Butir{
+    background-color: cornflowerblue;
+}
+
+.cell{
+    border-color: black;
+}
+
+.Flexbox{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content{
+    padding: 20px;
+}
+
+
+
