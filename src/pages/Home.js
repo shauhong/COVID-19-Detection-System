@@ -31,7 +31,7 @@ function Home(){
             <div style={landing}>
                 <p style={text} className="xlg-text bold">Innovate COVID-19<br/>Detection with<br/>Artificial Intelligence</p>
                 <Link to="/">
-                    <button style={button} className="button bold shadow-effect">Start Now</button>
+                    <button style={button} className="button sm-text bold shadow-effect">Start Now</button>
                 </Link>
             </div>
             <About/>

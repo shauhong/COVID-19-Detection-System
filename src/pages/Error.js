@@ -1,16 +1,15 @@
 function Error(){
     const wrapper = {
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
+        height: '90vh',
     }
     const text = {
-        fontSize: '72px',
         textAlign: 'center',
+        position: 'relative',
+        top: '40%',
     }
     return(
         <div style={wrapper}>
-            <p style={text}>Page Does Not Exist</p>
+            <p style={text} className="xlg-text bold">Page Does Not Exist</p>
         </div>
     )
 }
