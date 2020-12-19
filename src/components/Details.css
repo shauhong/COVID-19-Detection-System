@@ -97,9 +97,7 @@ div{
     box-shadow: 0 6px 6px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
-
-
-table, th, td{
+.table,.table th, .table td{
     margin: 20px;
     border: 1px solid rgb(191, 221, 245); 
     border-collapse: collapse;    
