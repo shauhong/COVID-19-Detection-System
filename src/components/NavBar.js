@@ -6,11 +6,11 @@ function NavBar(){
                 <Link to="/">COVID-19</Link>
             </div>
             <ul className="nav-links">
-                <Link to="/"><li>Home</li></Link>
-                <Link to="/"><li>Scan</li></Link>
-                <Link to="/patients"><li>Patient</li></Link>
-                <Link to="/"><li>Dashboard</li></Link>
-                <Link to="/login"><li>Login</li></Link>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/">Scan</Link></li>
+                <li><Link to="/patients">Patient</Link></li>
+                <li><Link to="/">Dashboard</Link></li>
+                <li><Link to="/login">Login</Link></li>
             </ul>
         </nav>
     )
