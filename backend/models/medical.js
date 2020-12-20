@@ -9,4 +9,4 @@ const medicalSchema = new Schema({
 
 const Medical = mongoose.model('Medical', medicalSchema);
 module.exports = Medical;
-
+    
