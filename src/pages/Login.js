@@ -77,7 +77,7 @@ function Login(props) {
         console.log("json", json);
         if (json.success) {
           setErrorMessage(json.message);
-
+          props.setToken(json.token);
           handlePage();
         } else {
           setErrorMessage(json.message);

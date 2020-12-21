@@ -1,14 +1,21 @@
 import * as actionTypes from "./actions";
 
 const initialState = {
-  token: ""
+  token: "",
+  signIn: false
 };
 
 function reducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.SIGNEDIN:
       return {
-        token: action.userToken
+        token: action.userToken,
+        signIn: true
+      };
+    case actionTypes.SIGNEDOUT:
+      return {
+        token: "",
+        signIn: false
       };
     default:
       return state;
