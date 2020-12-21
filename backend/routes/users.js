@@ -9,11 +9,12 @@ const verifyToken = require("./verifyToken");
 router.post("/register", async (req, res) => {
   //Validation
   const { error } = registerValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) return res.status(400).send({ message: error.details[0].message });
 
   //Check User Existence
   const emailExist = await User.findOne({ email: req.body.email });
-  if (emailExist) return res.status(400).send("Email Already Exist");
+  if (emailExist)
+    return res.status(400).send({ message: "Email Already Exist" });
 
   //Hash Password
   const salt = await bcrypt.genSalt();
@@ -34,7 +35,14 @@ router.post("/register", async (req, res) => {
 
   try {
     const savedUser = await user.save();
-    res.json(savedUser);
+
+    const token = jwt.sign({ _id: savedUser._id }, process.env.TOKEN_SECRET);
+    res.header("authorization", token).json({
+      success: true,
+      message: "Login Success",
+      token: token,
+      savedUser: savedUser
+    });
   } catch (error) {
     res.status(400).json({ message: error });
   }
