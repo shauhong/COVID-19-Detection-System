@@ -1,9 +1,66 @@
 import xray from '../assets/images/xray.jpg';
 import PatientTable from '../components/PatientTable';
+import * as tf from '@tensorflow/tfjs'
+import React, {useState, useEffect, useRef} from 'react';
 
+function Scan(){
+    const [model,setModel] = useState(null);
+    const [result,setResult] = useState(null);
+    const imageRef = useRef();
+    const label = ['COVID-19', 'Normal'];
 
-function Analysis(){
+    useEffect(()=>{
+        const fetchModel = async ()=>{
+            const localModel = await tf.loadLayersModel("http://localhost:5000/ResNet50/model.json");
+            setModel(localModel);
+            console.log("Model Loaded");
+        }
+        fetchModel();
+    },[]);
+
+    const handleClick = async ()=> {
+        const scanImage = imageRef.current;
+        let tensor = tf.browser.fromPixels(scanImage);
+        tensor = tf.image.resizeNearestNeighbor(tensor, [224,224]);
+        tensor = tensor.toFloat().div(255).expandDims();
+        console.log("Preprocessed");
+        const predictions = await model.predict(tensor).data();
+        console.log("Predicted");
+        console.log(predictions);
+        const results = [];
+        predictions.map((prediction,index)=>{
+            results[index] = parseFloat(prediction*100).toFixed(2);
+        })
+        setResult(results);
+    }
+     
+
     const wrapper = {
+        height: '90vh',
+        width: '100%',
+        display: 'grid',
+        gridTemplateColumns: '3fr 5fr 3fr',
+    };
+    const information = {
+        minWidth: '250px',
+    };
+    const panel = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        height: '90vh',
+        width: '100%',
+        minWidth: '400px',
+    };
+    const image = {
+        height: '100%',
+        width: '100%',
+        objectFit: 'cover',
+    }
+    const analysis = {
+        minWidth: '250px',
+    };
+    const container = {
         height: '90vh',
         display: 'flex',
         flexDirection: 'column',
@@ -61,67 +118,48 @@ function Analysis(){
     };
     return(
         <div style={wrapper}>
-            <div style={upperPane}>
-                <div>
-                <p className="sm-text bold">Result</p>
-                <div style={group}>
-                    <div style={positive}>
-                        <p className="sm-text bold">Positive</p>
-                    </div>
-                    <div style={negative}>
-                        <p className="sm-text bold">Negative</p>
-                    </div>
-                </div>
-                </div>
-                <div>
-                    <p className="sm-text bold">Abnormality Score</p>
-                    <div style={bar} >
-                        <div style={barFill}/>
-                    </div>
-                    <p className="xlg-text" style={{textAlign:'center', color:'red'}}>90%</p>
-                </div>
-            </div>
-            <button style={lowerPane}className="button sm-text bold">Scan</button>
-        </div>
-    )
-}
-
-function Scan(){
-    const wrapper = {
-        height: '90vh',
-        width: '100%',
-        display: 'grid',
-        gridTemplateColumns: '3fr 5fr 3fr',
-    };
-    const information = {
-        minWidth: '250px',
-    };
-    const panel = {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        height: '90vh',
-        width: '100%',
-        minWidth: '400px',
-    };
-    const image = {
-        height: '100%',
-        width: '100%',
-        objectFit: 'cover',
-    }
-    const analysis = {
-        minWidth: '250px',
-    };
-    return(
-        <div style={wrapper}>
             <div style={information}>
                 <PatientTable/>
             </div>
             <div style={panel}>
-                <img src={xray} style={image} /> 
+                <img src={xray} style={image} ref={imageRef} /> 
             </div>
             <div style={analysis}>
-                <Analysis/>
+                <div style={container}>
+                    <div style={upperPane}>
+                        <div>
+                        <p className="sm-text bold">Result</p>
+                        <div style={group}>
+                            <div style={positive}>
+                                <p className="sm-text bold">Positive</p>
+                            </div>
+                            <div style={negative}>
+                                <p className="sm-text bold">Negative</p>
+                            </div>
+                        </div>
+                        </div>
+                        <div>
+                            <p className="sm-text bold">Abnormality Score</p>
+                            <div style={bar} >
+                                <div style={barFill}/>
+                            </div>
+                            <div style={{display:'flex', justifyContent:'space-around', gap: '20px', alignItems:'center'}}>
+                                {
+                                    result && result.map((item,index)=>{
+                                        return(
+                                            <div>
+                                                <p className="md-text bold">{label[index]}</p>
+                                                <p className="md-text bold" style={{textAlign: 'center', padding:'10px 0px'}}>{item}</p>
+                                            </div>
+                                        ) 
+                                    }
+                                    )
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    {model && <button style={lowerPane} className="button sm-text bold" onClick={handleClick}>Scan</button>}
+                </div>                
             </div>
         </div>
     )

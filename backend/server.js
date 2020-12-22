@@ -9,6 +9,7 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static('./assets'));
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
@@ -24,6 +25,7 @@ connection.once("open", () => {
 // const medicalRouter = require('./routes/medical');
 // const patientRouter = require('./routes/patient');
 const userRoute = require("./routes/users");
+
 
 // app.use('/medical',medicalRouter);
 // app.use('/patient',patientRouter);
