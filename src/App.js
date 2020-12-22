@@ -11,7 +11,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Scan from "./scan";
 import Patients from "./information";
-import Statistics from "./statistics";
+import Statistics from "./statistics/Statistics";
 import NavBar from "./components/NavBar";
 import ScrollToTop from "./components/ScrollToTop";
 import Details from "./components/Details";

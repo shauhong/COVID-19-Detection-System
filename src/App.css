@@ -1,43 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Roboto:wght@300;400;500;700&display=swap");
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: "sourceSansPro";
 }
 
-body{
-  width: '100%';
+body {
+  width: "100%";
   overflow-x: hidden;
 }
 
-nav{
+nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   min-height: 10vh;
-  background: rgb(255,255,255);
-  box-shadow: 5px 5px 10px rgba(0,0,0,15%);
+  background: rgb(255, 255, 255);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 15%);
   padding: 0px 100px;
   position: -webkit-sticky;
   position: sticky;
   top: 0px;
-  z-index: 9999; 
+  z-index: 9999;
 }
 
-.logo a{
+.logo a {
   cursor: pointer;
   font-weight: 700;
   font-style: bold;
   font-size: 24px;
 }
 
-.logo a:hover{
-  color:inherit;
+.logo a:hover {
+  color: inherit;
 }
 
-.nav-links{
+.nav-links {
   width: 30%;
   display: flex;
   justify-content: space-between;
@@ -45,64 +45,65 @@ nav{
   list-style-type: none;
 }
 
-a{
+a {
   text-decoration: none;
-  font-family: 'Roboto', sans-serif;
-  font-weight:  700;
+  font-family: "Roboto", sans-serif;
+  /* font-family: "sourceSansPro"; */
+  font-weight: 700;
   font-style: bold;
   font-size: 16px;
   color: inherit;
 }
 
-a:visited{
+a:visited {
   color: inherit;
 }
 
-a:hover{
-  color: rgb(0,63,255);
+a:hover {
+  color: rgb(0, 63, 255);
 }
 
-a:active{
-  color: rgb(76,135,245);
+a:active {
+  color: rgb(76, 135, 245);
 }
 
-.xlg-text{
+.xlg-text {
   font-size: 48px;
 }
 
-.lg-text{
+.lg-text {
   font-size: 32px;
 }
 
-.md-text{
+.md-text {
   font-size: 24px;
 }
 
-.sm-text{
+.sm-text {
   font-size: 16px;
 }
 
-.xsm-text{
+.xsm-text {
   font-size: 12px;
 }
 
-.bold{
+.bold {
   font-weight: 700;
 }
 
-.medium{
+.medium {
   font-weight: 500;
 }
 
-.light{
+.light {
   font-weight: 400;
 }
 
-.shadow-effect{
-  box-shadow: 5px 5px 10px rgba(0,0,0,15%);
+.shadow-effect {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 15%);
 }
 
-.form{
+.form {
   display: flex;
   margin: 0 auto;
   flex-direction: column;
@@ -113,22 +114,22 @@ a:active{
   width: 100%;
 }
 
-.primary-color{
-  color: rgb(0,63,255);
+.primary-color {
+  color: rgb(0, 63, 255);
 }
 
-.secondary-color{
-  color: rgb(76,135,245);
+.secondary-color {
+  color: rgb(76, 135, 245);
 }
 
-.form-group{
+.form-group {
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 5px;
 }
 
-.form-row{
+.form-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -136,20 +137,20 @@ a:active{
   gap: 20px;
 }
 
-.form-control{
+.form-control {
   width: 100%;
   height: 24px;
   padding-left: 5px;
 }
 
-.button{
-  color: rgb(255,255,255);
-  background-color: rgb(0,63,255);
+.button {
+  color: rgb(255, 255, 255);
+  background-color: rgb(0, 63, 255);
   cursor: pointer;
   border: 0px;
   padding: 5px;
 }
 
-.button:hover{
-  background-color: rgb(76,135,245);
+.button:hover {
+  background-color: rgb(76, 135, 245);
 }

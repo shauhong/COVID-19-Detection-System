@@ -6,28 +6,6 @@ import * as actionTypes from "../store/actions";
 function NavBar(props) {
   const [login, setLogin] = useState(false);
 
-  // useEffect(() => {
-  //console.log(props.token);
-  //handleLoginCheck();
-  //});
-
-  //   function handleLoginCheck() {
-  //     fetch("http://localhost:5000/users/", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         authorization: props.token
-  //       }
-  //     })
-  //       .then(res => res.json())
-  //       .then(json => {
-  //         console.log(json);
-  //         if (json.email) {
-  //           setLogin(true);
-  //         }
-  //       });
-  //   }
-
   function handleLogout() {
     props.emptyToken();
   }
@@ -46,7 +24,7 @@ function NavBar(props) {
             <Link to="/patients">
               <li>Patient</li>
             </Link>
-            <Link to="/">
+            <Link to="/statistics">
               <li>Dashboard</li>
             </Link>
             <Link to="/login">
