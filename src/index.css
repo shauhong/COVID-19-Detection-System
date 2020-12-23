@@ -19,9 +19,20 @@ code {
   font-family: "sourceSansPro";
 }
 
+h2 {
+  font-family: "sourceSansProBold";
+}
+
 @font-face {
   font-family: "sourceSansPro";
   src: url("./assets//fonts/SourceSansPro-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "sourceSansProBold";
+  src: url("./assets//fonts/SourceSansPro-Bold.ttf");
   font-weight: normal;
   font-style: normal;
 }

@@ -35,6 +35,7 @@ function App(props) {
         <Route path="/statistics">
           {props.signIn ? <Statistics /> : <Redirect to="/" />}
         </Route>
+        {/* <Route path="/statistics" component={Statistics} /> */}
 
         {/* <Route path="/scan" component={Scan} />
         <Route path="/patients/:id" component={Details} />
