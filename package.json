@@ -14,6 +14,7 @@
     "add": "^2.0.6",
     "google-map-react": "^2.1.9",
     "malaysia-state-flag-icon-css": "github:jwarby/malaysia-state-flag-icon-css",
+    "axios": "^0.21.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-modal": "^3.12.1",

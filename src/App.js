@@ -15,7 +15,9 @@ import Statistics from "./statistics/Statistics";
 import NavBar from "./components/NavBar";
 import ScrollToTop from "./components/ScrollToTop";
 import Details from "./components/Details";
+import CreatePatient from './components/CreatePatient';
 import { connect } from "react-redux";
+
 
 function App(props) {
   return (
@@ -35,13 +37,6 @@ function App(props) {
         <Route path="/statistics">
           {props.signIn ? <Statistics /> : <Redirect to="/" />}
         </Route>
-        {/* <Route path="/statistics" component={Statistics} /> */}
-
-        {/* <Route path="/scan" component={Scan} />
-        <Route path="/patients/:id" component={Details} />
-        <Route path="/patients" component={Patients} />
-        <Route path="/statistics" component={Statistics} /> */}
-
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />
         <Route path="/" exact component={Home} />

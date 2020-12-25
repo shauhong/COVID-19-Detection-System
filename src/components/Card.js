@@ -12,8 +12,14 @@ import { useN01TextInfoContentStyles } from '@mui-treasury/styles/textInfoConten
 import { useBouncyShadowStyles } from '@mui-treasury/styles/shadow/bouncy';
 import {Grid} from '@material-ui/core';
 import {Link} from 'react-router-dom';
+import Details from './Details';
+import { useFourThreeCardMediaStyles } from '@mui-treasury/styles/cardMedia/fourThree';
+
+
 
 const useStyles = makeStyles(() => ({
+
+
     root: {
       maxWidth: 304,
       margin: 'auto',
@@ -22,20 +28,26 @@ const useStyles = makeStyles(() => ({
       padding: 20,
     },
     content: {
-      padding: 24,
+      padding: 20,
     },
     cta: {
-      marginTop: 24,
+      marginTop: 20,
       textTransform: 'initial',
-      backgroundColor:'#85C1E9',
+      backgroundColor:'darkblue',
       color:"white",
 
+      "&:hover": {
+        background: "#63C5DA",
+      },
+
+
     },
+
+
   }));
 
 export default function PatientCard(props){
 
-    
 
     const{
         name,
@@ -65,8 +77,8 @@ export default function PatientCard(props){
               body={status}
             />
             <Link to = '/patients/1'>
-              <Button color={'primary'} fullWidth className={styles.cta}>
-                More Details <ChevronRightRounded />
+              <Button  fullWidth className={styles.cta}>
+                More Details <ChevronRightRounded/>
               </Button>
             </Link>
             

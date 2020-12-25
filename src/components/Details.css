@@ -115,11 +115,16 @@ div{
 .Flexbox{
     display: flex;
     flex-wrap: wrap;
+    box-sizing: border-box;
+    justify-content: space-evenly;
 }
+
 
 .content{
     padding: 20px;
 }
+
+
 
 
 
