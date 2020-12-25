@@ -1,20 +1,9 @@
-import { Link } from 'react-router-dom';
+function NewForm(){
 
-function UserForm(){
     const wrapper={
-        display: 'flex',
-        margin: '0 auto',
-        padding: '30px 40px',
-        minWidth: '350px',
-        width: '40%',
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        border: '1px solid rgba(0,0,0,16%)',
-        boxShadow: '5px 5px 5px rgba(0,0,0,16%), -5px 5px 5px rgba(0,0,0,16%)',
-        gap: '20px',
-        borderRadius: '2%',
-    };
+        paddingLeft:'15px',
+        paddingRight:'15px',
+    }
 
     const form={
         display: 'flex',
@@ -33,8 +22,10 @@ function UserForm(){
         gap: '20px',
     }
     const title={
-        fontSize: '24px',
+        fontSize: '26px',
         fontWeight: '700',
+        margin:'15px',
+        textAlign:'center',
     };
 
     const label={
@@ -44,9 +35,10 @@ function UserForm(){
     const button={
         width: '100%',
         height: '32px',
-        backgroundColor: 'rgb(0,0,0)',
+        backgroundColor: 'darkblue',
         color: 'rgb(255,255,255)',
         cursor: 'pointer',
+        marginTop: '5px',
     };
     const formGroup={
         display: 'flex',
@@ -56,7 +48,7 @@ function UserForm(){
     };
     const formControl={
         width: '100%',
-        height: '24px',
+        height: '25px',
         paddingLeft: '5px',
     };
     const subtext={
@@ -71,29 +63,49 @@ function UserForm(){
     const states = ['','Wilayah Persekutuan','Selangor','Johor','Kedah','Kelantan','Melaka',
     'Negeri Sembilan','Pahang','Penang','Perak','Perlis','Sabah','Sarawak','Terengganu'];
 
+    const results = ['Positive','Negative','Unknown'];
+    const genders = ['','Male','Female'];
+
+
     return(
         <div style={wrapper}>
-            <p style={title}>Sign Up with FoodPal</p>
+            <div style={title}>
+                <p>New Patient Profile</p>
+            </div>
             <form action="" method="post" style={form}>
+                <div style={formGroup}> 
+                        <label style={label}>Name</label>
+                        <input style={formControl} type="text" placeholder="Name" name="name"/>
+                </div>
                 <div style={row}>
                     <div style={formGroup}> 
-                        <label style={label}>Email</label>
-                        <input style={formControl} type="email" placeholder="Email" name="email"/>
+                        <label style={label}>NRIC No.</label>
+                        <input style={formControl} type="text" placeholder="NRIC No." name="IC"/>
                     </div>
                     <div style={formGroup}> 
-                        <label style={label}>Password</label>
-                        <input style={formControl} type="password" placeholder="Password" name="password"/>
+                        <label style={label}>Age</label>
+                        <input style={formControl} type="text" placeholder="Age" name="age"/>
                     </div>
                 </div>
 
                 <div style={row}>
-                    <div style={formGroup}>
-                        <label style={label}>Name</label>
-                        <input style={formControl} type="text" placeholder="Name" name="name"/>
-                    </div>
                     <div style={formGroup}> 
-                        <label style={label}>Mobile Phone</label>
-                        <input style={formControl} type="text" placeholder="Mobile Phone" name="phone"/>
+                        <label style={label}>Gender</label>
+                        <select style={formControl}>
+                            {
+                                genders.map((gender,index)=>{
+                                    return(
+                                        gender===''
+                                        ?<option key={index} value={gender} disabled selected>Gender</option>
+                                        :<option key={index} value={gender}>{gender}</option>
+                                    );
+                                })
+                            }
+                        </select>
+                    </div>  
+                    <div style={formGroup}> 
+                        <label style={label}>Contact No.</label>
+                        <input style={formControl} type="text" placeholder="Contact No." name="phone"/>
                     </div>
                 </div>
                 <div style={formGroup}> 
@@ -124,11 +136,32 @@ function UserForm(){
                         <input style={formControl} type="text" placeholder="City" name="city"/>
                     </div>
                 </div>
-                <input type="submit" value="Sign Up" style={button}/>
-                <Link style={subtext} to="/login">Back To Login Page</Link>
+                
+                <div style={formGroup}> 
+                        <label style={label}>Result</label>
+                        <select style={formControl}>
+                            {
+                                results.map((result,index)=>{
+                                    return(
+                                        result===''
+                                        ?<option key={index} value={result} disabled selected>Result</option>
+                                        :<option key={index} value={result}>{result}</option>
+                                    );
+                                })
+                            }
+                        </select>
+                </div>
+                <div style={formGroup}> 
+                    <label style={label}>Chest X-ray Image</label>
+                    <input style={formControl} type="file"/>
+                </div>
+                    
+                 
+
+                <input type="submit" value="Save" style={button}/>
             </form>
         </div>
     )
 }
 
-export default UserForm;
+export default NewForm;

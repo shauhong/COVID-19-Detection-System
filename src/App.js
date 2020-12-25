@@ -10,6 +10,7 @@ import Statistics from './statistics';
 import NavBar from './components/NavBar';
 import ScrollToTop from './components/ScrollToTop';
 import Details from './components/Details';
+import CreatePatient from './components/CreatePatient';
 
 
 function App() {
@@ -19,14 +20,14 @@ function App() {
       <ScrollToTop/>
       <Switch>
         <Route path="/scan" component={Scan}/>
+        <Route path="/patients/create" component={CreatePatient}/>
         <Route path="/patients/:id" component={Details}/>
         <Route path="/patients" component={Patients}/>
         <Route path="/statistics" component={Statistics}/>
         <Route path="/login" component={Login}/>
         <Route path="/signup" component={SignUp}/>
         <Route path="/" exact component={Home}/>
-        <Route path="*" component={Error}/>
-        
+        <Route path="*" component={Error}/>    
       </Switch>
     </Router>
   );
