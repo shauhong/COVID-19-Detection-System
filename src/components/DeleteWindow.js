@@ -5,6 +5,23 @@ import axios from 'axios';
 
 function DeleteWindow(props){
 
+    const subtext = {
+        marginTop:"15px",
+        marginBottom: "30px",
+    }
+
+    const closeButton = {
+        backgroundColor: "darkBlue",
+        color: "white",
+        paddingLeft: "8px",
+        paddingRight: "8px",
+    }
+
+    const title={
+        fontSize: '26px',
+        fontWeight: '700',
+    }
+
     const id = props.id;
     const token = useSelector(state=>state.token);
     const headers = {
@@ -29,13 +46,13 @@ function DeleteWindow(props){
     return(
         <div>
             <form onSubmit = {onSubmit} >
-                <h3>
+                <div style={title}>
                     Delete Patient
-                </h3>
-                <div>
+                </div>
+                <div style={subtext}>
                     <p>Confirm deletion?</p>
                 </div>
-                <input type="submit" value="Delete1" className="closeButton"/>
+                <input style={closeButton} type="submit" value="Delete" className="closeButton"/>
             </form>
         </div>    
     )

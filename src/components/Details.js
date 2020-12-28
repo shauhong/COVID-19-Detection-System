@@ -11,9 +11,65 @@ import {Link} from 'react-router-dom';
 
 function Details(props){
 
+    const wrapper={
+        paddingLeft:'15px',
+        paddingRight:'15px',
+    }
+
+    const form={
+        display: 'flex',
+        marginTop:'30px',
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        gap: '15px',
+        minWidth: '250px',
+        width: '100%',
+        marginLeft:'20px',
+    }
+    const row={
+        display: 'flex',
+        justifyContent:'space-between',
+        width: '100%',
+        gap: '10px',
+        marginBottom:'10px',
+    }
+    const title={
+        fontSize: '26px',
+        fontWeight: '700',
+        margin:'15px',
+        textAlign:'center',
+    };
+
+    const label={
+        fontSize: '18px',
+        fontWeight: '700',
+        color: '#2B547E',
+    };
+
+    const button={
+        width: '100%',
+        height: '32px',
+        backgroundColor: 'darkblue',
+        color: 'rgb(255,255,255)',
+        cursor: 'pointer',
+        marginTop: '5px',
+    };
+    const formGroup={
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        gap: '5px',
+    };
+    const formControl={
+        width: '100%',
+        height: '20px',
+    };
+
     const id = props.match.params.id;
     console.log(props);
-    const [modalIsOpen,setModalIsOpen] = useState(false);
+    const [editModalIsOpen,setEditModalIsOpen] = useState(false);
+    const [deleteModalIsOpen,setDeleteModalIsOpen] = useState(false);
     
     const [name, setName] = useState(null); 
     const [ic, setIC] = useState(null); 
@@ -50,20 +106,21 @@ function Details(props){
     })
 
     return(
-
+        
+ 
         <div className="page">
             
- 
+
             <div className="header">
                 
                 <h4 className="title">
                     <b>{name}</b>
                 </h4>
                 <div className="buttons">
-                    <button onClick={() => setModalIsOpen(true)} className="editButton">Edit</button>
-                    {/*<Modal classname="EditModal"
-                        isOpen={modalIsOpen} 
-                        onRequestClose={() => setModalIsOpen(false)}
+                    <button onClick={() => setEditModalIsOpen(true)} className="editButton">Edit</button>
+                    <Modal classname="EditModal"
+                        isOpen={editModalIsOpen} 
+                        onRequestClose={() => setEditModalIsOpen(false)}
                         style={
                         {
                             overlay:{
@@ -79,22 +136,22 @@ function Details(props){
                         }
                     >
                         <EditForm id={id} name={name} ic={ic} age={age} gender={gender} phone={phone} address={address} postal={postal} negeri={negeri} city={city} result={result} image={image}/>
-                        <button className="closeButton" onClick={() => setModalIsOpen(false)}>Close</button>
-                    </Modal>*/}
+                        <button className="closeButton" onClick={() => setEditModalIsOpen(false)}>Close</button>
+                    </Modal>
                     
 
-                    <button onClick={() => setModalIsOpen(true)} className="deleteButton">Delete</button>
+                    <button onClick={() => setDeleteModalIsOpen(true)} className="deleteButton">Delete</button>
                     
                     <Modal classname="DeleteModal"
-                        isOpen={modalIsOpen} 
-                        onRequestClose={() => setModalIsOpen(false)}
+                        isOpen={deleteModalIsOpen} 
+                        onRequestClose={() => setDeleteModalIsOpen(false)}
                         style={
                         {
                             overlay:{
                                 backgroundColor:'rgba(0,0,0,0.75)',
                             }, 
                             content:{
-                                height:"160px",
+                                height:"180px",
                                 marginTop:'250px',
                                 marginLeft: 'auto',
                                 marginRight:'auto',
@@ -106,8 +163,7 @@ function Details(props){
                     >
                         <DeleteWindow id={id} />
                         <div>
-                            <button className="cancelButton" onClick={() => setModalIsOpen(false)}>Cancel</button>
-                            <button className="closeButton" onClick={() => setModalIsOpen(false)}>Delete</button>
+                            <button className="closeButton" onClick={() => setDeleteModalIsOpen(false)}>Cancel</button>
                         </div>
                     </Modal>
                 </div>
@@ -117,11 +173,55 @@ function Details(props){
             <div className="Flexbox">
                 <div className="flexItem"> 
                     <div className="image">
-                        <img src="https://www.itnonline.com/sites/default/files/styles/content_large/public/Chest.jpeg?itok=yTw0jxOS"></img>
+                        <img height="450px" width="450px" src="https://prod-images-static.radiopaedia.org/images/903193/06eb041ff51e064424ba056806564a_jumbo.jpg"></img>
+                    </div>
+                </div>
+
+                <div className="flexItem">
+                    <div style={form} >
+                        
+                        <div style={row}>
+                            <div style={formGroup}> 
+                                <label style={label}>NRIC No.</label>
+                                <p style={formControl}>{ic} </p>
+                            </div>
+                        </div>
+                        <div style={row}>
+                            <div style={formGroup}> 
+                                    <label style={label}>Age</label>
+                                    <p style={formControl}>{age} </p>
+                            </div>
+                        </div>
+                        <div style={row}>
+                            <div style={formGroup}> 
+                                <label style={label}>Gender</label>
+                                <p style={formControl}>{gender} </p>
+                            </div>  
+                        </div>
+                        <div style={row}>
+                            <div style={formGroup}> 
+                                <label style={label}>Contact No.</label>
+                                <p style={formControl}>{phone} </p>
+                            </div>
+                        </div>
+
+                        <div style={row}>
+                            <div style={formGroup}> 
+                                    <label style={label}>Address</label>
+                                    <p style={formControl}>{address + ", " + postal + " " + city + ", " + negeri + "." } </p>
+                            </div>
+                        </div>
+                        
+                        <div style={row}>
+                            <div style={formGroup}> 
+                                    <label style={label}>Result</label>
+                                    <p style={formControl}>{result} </p>
+                            </div>
+                        </div>            
                     </div>
                 </div>
                 
-                <table className="table">
+                {/*<table className="table">
                         <tr>
                             <th color="black">NRIC No.</th>
                             <th>{ic}</th>
@@ -163,7 +263,10 @@ function Details(props){
                             <th>{image}</th>
                         </tr>
                         
-                </table>
+                </table>*/}
+                
+                
+
             </div>
         </div>
     )

@@ -7,12 +7,25 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import CardMedia from '@material-ui/core/CardMedia';
 import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
+import SearchPatientBar from "./SearchPatientBar";
+import Modal from 'react-modal';
+import CreatePatient from '../components/CreatePatient';
 
 
 const Cards = () => {
-
     
-    /*const patientInfo = {
+    const AddNewButton = {
+        float:'right',
+        color: 'white',
+        backgroundColor: 'darkblue',
+        cursor: 'pointer',
+        padding: '5px',
+        fontSize:'15px',
+        marginRight:'20px',
+      }
+      
+    
+    const patientInfo = {
         backgroundColor: 'rgb(255,255,255)',
         height: '150px',
         display: 'flex',
@@ -42,19 +55,32 @@ const Cards = () => {
     const bannerRegion={
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundImage:'https://i.pinimg.com/736x/34/81/fc/3481fcd65a0e64146657ef18abb241aa.jpg',
+        backgroundImage: `url("https://kit8.net/images/thumbnails/580/386/detailed/4/At_the_hospital@2x.png")`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        height: '350px',
-        marginBottom: '50px',
-    };*/
-    
+        height: '400px',
+        marginBottom: '20px',
+        width: '100%',
+    }
+
+    const bannerTitle={
+        fontSize:'50px',
+        margin:'20px',
+    }
+
+    const styles = useCoverCardMediaStyles();
     const token = useSelector(state=>state.token);
     const [patients, setPatients] = useState([]);
-    const styles = useCoverCardMediaStyles();
+    const [search, setSearch] = useState('');
+    const [modalIsOpen,setModalIsOpen] = useState(false);
 
+
+    const changeSearch = (e) => {
+        setSearch(e.target.value);
+        console.log(search);
+    }
 
     const getPatientsRequest = async () =>{
         
@@ -73,12 +99,15 @@ const Cards = () => {
     
             const json = await res.json();
             setPatients(json);
+            console.log(json);
 
         }catch(error){
             console.log("Unhandled Error");
         }
         
     };
+
+
 
 
     useEffect(() => {
@@ -98,8 +127,8 @@ const Cards = () => {
         gridContainer:{
             paddingTop:"20px",
             paddingBottom:"20px",
-            paddingLeft:"20px",
-            paddingRight:"20px",
+            paddingLeft:"30px",
+            paddingRight:"30px",
 
         },
 
@@ -115,25 +144,46 @@ const Cards = () => {
 
     return( 
         <div>
-            
 
-            {/*<Box className={classes.banner} p={2}>
-                <CardMedia
-                    image={"https://kit8.net/images/thumbnails/580/386/detailed/4/At_the_hospital@2x.png"}
-                    classes={styles}
-                />
-                <Box position={'relative'} fontSize={'30px'} paddingLeft={'30px'} >
-                    <h3>John Doe Hospital</h3>
-                    <p>Address</p>
-                </Box>
-            </Box>*/}
+        <div style={bannerRegion}>
+            <div>
+            </div>
+            <div>
+                <div style={bannerTitle}>{patients[0] && patients[0].user.facilityName}</div>
+                <SearchPatientBar handleChange={changeSearch}/>
+            </div>
+        </div>
+        
+        <button  onClick={() => setModalIsOpen(true)} style={AddNewButton}>Add Patient</button>
+        <Modal classname="Modal"
+            isOpen={modalIsOpen} 
+            onRequestClose={() => setModalIsOpen(false)}
+            style={
+            {
+                overlay:{
+                backgroundColor:'rgba(0,0,0,0.75)',
+                }, 
+                content:{
+                marginTop:'80px',
+                marginLeft: 'auto',
+                marginRight:'auto',
+                width: '50%', 
+                
+                }
+            }
+            }
+        >
+        <CreatePatient openModal={setModalIsOpen}/>
+        <button className="closeButton" onClick={() => setModalIsOpen(false)}>Close</button>
+      </Modal>
+            
 
 
             <Grid container className={classes.gridContainer}>                   
                 {
                     patients.length>0 &&
                     patients.map((patient,index) => {
-
+                        if(patient.name.toLowerCase().includes(search.toLowerCase()))
                         return(                        
                             <Grid item xs={12} sm={6} md={4} lg={3} spacing={5} className={classes.gridItem}>
                             <Link to = {'/patients/' + patient._id}  key={index}>

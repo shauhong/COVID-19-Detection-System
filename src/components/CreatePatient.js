@@ -72,17 +72,114 @@ function CreatePatient(props){
     const results = ['','Positive','Negative','Unknown'];
     const genders = ['','Male','Female'];
     
-    const [name, setName] = useState(null); 
-    const [ic, setIC] = useState(null); 
-    const [age, setAge] = useState(0); 
-    const [gender, setGender] = useState(null); 
-    const [phone, setPhone] = useState(null); 
-    const [address, setAddress] = useState(null); 
-    const [postal, setPostal] = useState(0); 
-    const [negeri, setNegeri] = useState(null); 
-    const [city, setCity] = useState(null); 
-    const [result, setResult] = useState(null); 
-    const [image, setImage] = useState(null); 
+    const [name, setName] = useState(""); 
+    const [ic, setIC] = useState(""); 
+    const [age, setAge] = useState(""); 
+    const [gender, setGender] = useState(""); 
+    const [phone, setPhone] = useState(""); 
+    const [address, setAddress] = useState(""); 
+    const [postal, setPostal] = useState(""); 
+    const [negeri, setNegeri] = useState(""); 
+    const [city, setCity] = useState(""); 
+    const [result, setResult] = useState(""); 
+    const [image, setImage] = useState(""); 
+
+    const [nameError, setNameError] = useState("");
+    const [icError, setIcError] = useState("");
+    const [ageError, setAgeError] = useState("");
+    const [genderError, setGenderError] = useState("");
+    const [phoneError, setPhoneError] = useState("");
+    const [addressError, setAddressError] = useState("");
+    const [postalError, setPostalError] = useState("");
+    const [negeriError, setNegeriError] = useState("");
+    const [cityError, setCityError] = useState("");
+    const [resultError, setResultError] = useState("");
+    const [imageError, setImageError] = useState("");
+
+
+    const formValidation = () => {
+        const nameError = {};
+        const icError = {};
+        const ageError = {};
+        const genderError = {};
+        const phoneError = {};
+        const addressError = {};
+        const postalError = {};
+        const negeriError = {};
+        const cityError = {};
+        const resultError = {};
+        const imageError = {};
+
+
+        let isValid = true;
+
+        if(name.trim().length < 1){
+            nameError.emptyName = "Please fill in patient's name.";
+            isValid = false;
+        }
+
+        if(ic.trim().length < 1){
+            icError.emptyIc = "Please fill in patient's NRIC number.";
+            isValid = false;
+        }
+
+        if(age.trim().length < 1){
+            ageError.emptyAge = "Please fill in patient's age.";
+            isValid = false;
+        }
+
+        if(phone.trim().length < 1){
+            phoneError.emptyPhone = "Please fill in patient's contact number.";
+            isValid = false;
+        }
+
+        if(address.trim().length < 1){
+            addressError.emptyAddress = "Please fill in patient's address.";
+            isValid = false;
+        }
+
+        if(postal.trim().length < 1){
+            postalError.emptyPostal = "Please fill in patient's postal code.";
+            isValid = false;
+        }
+
+        if(negeri.trim().length < 1){
+            negeriError.emptyNegeri = "Please fill in patient's state of ";
+            isValid = false;
+        }
+
+        if(city.trim().length < 1){
+            cityError.emptyCity = "Please fill in patient's city.";
+            isValid = false;
+        }
+
+        if(result.trim().length < 1){
+            resultError.emptyResult = "Please fill in patient's scan result.";
+            isValid = false;
+        }
+
+        setNameError(nameError);
+        setIcError(icError);
+        setAgeError(ageError);
+        setGenderError(genderError);
+        setPhoneError(phoneError);
+        setAddressError(addressError);
+        setPostalError(postalError);
+        setNegeriError(negeriError);
+        setCityError(cityError);
+        setResultError(resultError);
+        console.log(nameError);
+        console.log(icError);
+        console.log(ageError);
+        console.log(genderError);
+        console.log(phoneError);
+        console.log(addressError);
+        console.log(postalError);
+        console.log(negeriError);
+        console.log(cityError);
+        console.log(resultError);   
+        return isValid;
+    }
 
 
     const changeName = (event) => {
@@ -144,28 +241,32 @@ function CreatePatient(props){
 
     const onSubmit = (event) =>{
         event.preventDefault();
-        const patient = {
-            name: name,
-            ic: ic,
-            age: age,
-            gender: gender,
-            phone: phone,
-            address: address,
-            postal: postal,
-            negeri: negeri,
-            city: city,
-            result: result,
-            image: image,
-        }
+        const isValid = formValidation();
 
-        axios.post('http://localhost:5000/patients/add', patient, {headers:headers})
-        .then((response)=> {console.log(response.data)})  
-        .catch((err)=>console.log(err)) 
-        
-        window.location.reload(true); 
-
-        
+        if(isValid){
+            const patient = {
+                name: name,
+                ic: ic,
+                age: age,
+                gender: gender,
+                phone: phone,
+                address: address,
+                postal: postal,
+                negeri: negeri,
+                city: city,
+                result: result,
+                image: image,
+            }
+    
+    
+    
+            axios.post('http://localhost:5000/patients/add', patient, {headers:headers})
+            .then((response)=> {console.log(response.data)})  
+            .catch((err)=>console.log(err)) 
+            
+            window.location.reload(true);
         }
+    }
 
 
 
@@ -255,7 +356,7 @@ function CreatePatient(props){
                 </div>
                 <div style={formGroup}> 
                     <label style={label}>Chest X-ray Image</label>
-                    <input onChange={changeImage} style={formControl} type="text"/>
+                    <input onChange={changeImage} style={formControl} type="file"/>
                 </div>
                     
                  

@@ -18,7 +18,7 @@ function App() {
   return (
     <div className="App">
 
-      <button onClick={() => setModalIsOpen(true)} className="AddNewButton">Add New</button>
+      {/*<button  onClick={() => setModalIsOpen(true)} className="AddNewButton">Add New</button>
       <Modal classname="Modal"
         isOpen={modalIsOpen} 
         onRequestClose={() => setModalIsOpen(false)}
@@ -37,9 +37,9 @@ function App() {
           }
         }
       >
-        <CreatePatient closeModal={setModalIsOpen}/>
+        <CreatePatient openModal={setModalIsOpen}/>
         <button className="closeButton" onClick={() => setModalIsOpen(false)}>Close</button>
-      </Modal>
+      </Modal>*/}
       
       
       <div className="Dashboard">

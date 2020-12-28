@@ -10,8 +10,8 @@
   height: 30px;
   width: 75px;
   padding: 5px;
-  margin-top: 20px;
-  margin-right: 20px;
+  position:absolute;
+  margin-top:100%;
 }
 
 .closeButton{

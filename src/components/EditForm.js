@@ -166,7 +166,7 @@ function EditForm(props){
     return(
         <div style={wrapper}>
             <div style={title}>
-                <p>New Patient Profile</p>
+                <p>Edit Patient Profile</p>
             </div>
             <form action="" method="post" style={form} onSubmit={onSubmit} >
                 <div style={formGroup}> 
