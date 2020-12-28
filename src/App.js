@@ -13,23 +13,27 @@ import Scan from "./scan";
 import Patients from "./information";
 import Statistics from "./statistics/Statistics";
 import NavBar from "./components/NavBar";
+import Snackbar from "./components/Snackbar";
 import ScrollToTop from "./components/ScrollToTop";
 import Details from "./components/Details";
 import CreatePatient from './components/CreatePatient';
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 
 
-function App(props) {
+
+function App() {
+  const signIn = useSelector(state=>state.auth.signIn);
   return (
     <Router>
       <NavBar />
+      <Snackbar />
       <ScrollToTop />
       <Switch>
         <Route path="/scan">
-          {props.signIn ? <Scan /> : <Redirect to="/" />}
+          {signIn ? <Scan /> : <Redirect to="/" />}
         </Route>
         <Route path="/patients/:id" render={({match})=>{
-          if(props.signIn){
+          if(signIn){
             return(<Details match={match}/>);
           }else{
             return(<Redirect to='/'/>)
@@ -38,10 +42,10 @@ function App(props) {
         />
 
         <Route path="/patients">
-          {props.signIn ? <Patients /> : <Redirect to="/" />}
+          {signIn ? <Patients /> : <Redirect to="/" />}
         </Route>
         <Route path="/statistics">
-          {props.signIn ? <Statistics /> : <Redirect to="/" />}
+          {signIn ? <Statistics /> : <Redirect to="/" />}
         </Route>
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />
@@ -52,8 +56,9 @@ function App(props) {
   );
 }
 
-const mapStateToProps = state => {
-  return { signIn: state.signIn };
-};
+// const mapStateToProps = state => {
+//   return { signIn: state.signIn };
+// };
 
-export default connect(mapStateToProps)(App);
+export default App;
+// export default connect(mapStateToProps)(App);

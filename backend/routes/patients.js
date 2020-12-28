@@ -1,17 +1,40 @@
 const router = require('express').Router();
-const verifyToken = require('./verifyToken');
+const fs = require('fs');
+const path = require('path');
+const multer = require('multer');
+//Configure Multer
+const storage = multer.diskStorage({
+  destination: (req,file,cb)=>{
+    cb(null, './assets/images');
+  },
+  filename: (req,file,cb)=>{
+    cb(null, file.fieldname + Date.now() + path.extname(file.originalname));
+  }
+});
+const fileFilter = (req,file,cb)=>{
+  if(file.mimetype === "image/jpeg" || file.mimetype === "image/jpg" || file.mimetype === "image/png"){
+    cb(null, true);
+  }else{
+    cb(null, false)
+  }
+};
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+})
+//Import Model
 const Patient = require('../models/patient.model');
 const User = require('../models/User');
+//Import Utility Function
+const verifyToken = require('./verifyToken');
 
 router.get('/', verifyToken, async (req,res)=>{
   const userId = req.user;
   try{  
     const user = await User.findById(userId);
     const patients = await Patient.find().populate('user');
-    const matchPatients = patients.map((patient)=>{
-      if(patient.user.facilityName === user.facilityName){
-        return patient;
-      }
+    const matchPatients = patients.filter((patient)=>{
+      return(patient.user.facilityName === user.facilityName)
     });
     res.json(matchPatients);
   }catch(error){
@@ -19,9 +42,12 @@ router.get('/', verifyToken, async (req,res)=>{
   }
 });
 
-router.post('/add', verifyToken, async(req,res)=>{
-
-  const userId = req.user; //logged-in eh staff
+router.post('/add', verifyToken, upload.single('image'), async(req,res)=>{
+  //Check Image
+  if(!req.file){
+    return res.status(400).json({message:"No Image is Uploaded"});
+  }
+  const userId = req.user; 
   const name = req.body.name;
   const ic = req.body.ic;
   const age = Number(req.body.age);
@@ -31,8 +57,8 @@ router.post('/add', verifyToken, async(req,res)=>{
   const postal = Number(req.body.postal);
   const negeri = req.body.negeri;
   const city = req.body.city;
-  const result = req.body.result;
-  const image = req.body.image;
+  // const result = req.body.result;
+  const image = req.file.path;
 
   try{
     const user = await User.findById(userId);
@@ -46,7 +72,6 @@ router.post('/add', verifyToken, async(req,res)=>{
       postal,
       negeri,
       city,
-      result,
       image,
       user: user._id,
     });
@@ -57,8 +82,22 @@ router.post('/add', verifyToken, async(req,res)=>{
   }
 });
 
-router.post('/update/:id', verifyToken, async(req,res)=>{
+router.post('/updateStatus/:id', verifyToken, async(req,res)=>{
+  const patientId = req.params.id;
+  try{
+    const patient = await Patient.findById(patientId);
+    patient.result = req.body.result;
+    patient.score = Number(req.body.score);
+    console.log("Backend result: "+ req.body.result);
+    console.log("Backend score: "+ req.body.score);
+    const saved = await patient.save();
+    res.json({message:"Successfully Updated Status", saved});
+  }catch(error){
+    res.status(400).json({message:"Update Status Error"});
+  }
+})
 
+router.post('/update/:id', verifyToken, upload.single('image'), async(req,res)=>{
   const patientId = req.params.id; 
   const name = req.body.name;
   const ic = req.body.ic;
@@ -70,31 +109,33 @@ router.post('/update/:id', verifyToken, async(req,res)=>{
   const negeri = req.body.negeri;
   const city = req.body.city;
   const result = req.body.result;
-  const image = req.body.image;
-
+  let image = req.body.image;
+  if(req.file.path){
+    image = req.file.path;
+  }
+  
   try{
     const patient = await Patient.findById(patientId);
-
-    patient.name = req.body.name;
-    patient.ic = req.body.ic;
-    patient.age = Number(req.body.age);
-    patient.gender = req.body.gender;
-    patient.phone = req.body.phone;
-    patient.address = req.body.address;
-    patient.postal = Number(req.body.postal);
-    patient.negeri = req.body.negeri;
-    patient.city = req.body.city;
-    patient.result = req.body.result;
-    patient.image = req.body.image;
+    patient.name = name;
+    patient.ic = ic;
+    patient.age = Number(age);
+    patient.gender = gender;
+    patient.phone = phone;
+    patient.address = address;
+    patient.postal = Number(postal);
+    patient.negeri = negeri;
+    patient.city = city;
+    patient.result = result;
+    patient.image = image;
 
     const saved = await patient.save();
     res.json({message:"Patient Updated", success:true, saved});
   }catch(error){
-    res.status(400).json({message:error});
+    res.status(400).json({message:"Edit Patient Error"});
   }
 });
 
-
+/*
 router.route('/:id').get((req, res) => {
   Patient.findById(req.params.id)
     .then(patient => res.json(patient))
@@ -106,18 +147,35 @@ router.route('/:id').delete((req, res) => {
     .then(() => res.json('Patient deleted.'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
+*/
+
+router.get('/:id', verifyToken, async(req,res)=>{
+  const patientId = req.params.id;
+  try{
+    const patient = await Patient.findById(patientId);
+    res.json(patient);
+  }catch(error){
+    res.status(400).json("Get Patient Error");
+  }
+});
 
 router.delete('/:id', verifyToken, async(req, res)=>{
   const patientId = req.params.id;
   try{
     const patient = await Patient.findById(patientId);
     if(!patient) return res.status(400).json({message:"Patient Not Found"});
+    removeImage(patient.image);
     const removed = await Patient.deleteOne({_id:patientId});
     res.status(200).json({message:"Patient Removed", success:true, removed});
   }catch(error){
-    res.status(400).json({message:error});
+    res.status(400).json({message:"Delete Patient Error"});
   }
 });
 
+const removeImage = (filepath) => {
+  fs.unlink(filepath,(error)=>{
+    console.log(error);
+  });
+}
 
 module.exports = router;

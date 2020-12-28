@@ -9,7 +9,6 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('./assets'));
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
@@ -22,11 +21,12 @@ connection.once("open", () => {
   console.log("MongoDB Database Connection Established Successfully");
 });
 
-const patientsRouter = require('./routes/patients');
+const patientsRoute = require('./routes/patients');
 const userRoute = require("./routes/users");
 
-app.use('/patients',patientsRouter);
+app.use('/patients',patientsRoute);
 app.use("/users", userRoute);
+app.use("/assets", express.static('./assets'));
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

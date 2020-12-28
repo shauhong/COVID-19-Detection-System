@@ -39,7 +39,7 @@ router.post("/register", async (req, res) => {
     const token = jwt.sign({ _id: savedUser._id }, process.env.TOKEN_SECRET);
     res.header("authorization", token).json({
       success: true,
-      message: "Login Success",
+      message: "Successfully Registered",
       token: token,
       savedUser: savedUser
     });
@@ -75,7 +75,7 @@ router.post("/login", async (req, res) => {
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
   res
     .header("authorization", token)
-    .json({ success: true, message: "Login Success", token: token });
+    .json({ success: true, message: "Successfully Login", token: token });
 });
 
 //Get

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
+import { signIn, setSnackbar } from '../actions';
 import * as actionTypes from "../store/actions";
 
 function SignUp(props) {
+  const dispatch = useDispatch();
+
   const container = {
     display: "flex",
     height: "90vh",
@@ -139,11 +142,17 @@ function SignUp(props) {
       .then(json => {
         console.log("json", json);
         if (json.success) {
-          setErrorMessage(json.message);
-          props.setToken(json.token);
+          // setErrorMessage(json.message);
+          dispatch(signIn(json.token));
+          dispatch(setSnackbar(true,'success',json.message));
+          localStorage.signIn = true;
+          localStorage.token = json.token;
+          // localStorage.auth({signIn:true, token:json.token});
+          // props.setToken(json.token);
           handlePage();
         } else {
-          setErrorMessage(json.message);
+          dispatch(setSnackbar(true,'error',json.message));
+          // setErrorMessage(json.message);
         }
       });
   }
@@ -272,9 +281,9 @@ function SignUp(props) {
             <input type="file" name="image" accept="image/*" />
           </div> */}
 
-          {errorMessage && (
+          {/* {errorMessage && (
             <p style={{ color: "red", textAlign: "center" }}>{errorMessage}</p>
-          )}
+          )} */}
           <input
             type="submit"
             value="Sign Up"
@@ -292,14 +301,16 @@ function SignUp(props) {
   );
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setToken: token =>
-      dispatch({ type: actionTypes.SIGNEDIN, userToken: token })
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     setToken: token =>
+//       dispatch({ type: actionTypes.SIGNEDIN, userToken: token })
+//   };
+// };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(SignUp);
+// export default connect(
+//   null,
+//   mapDispatchToProps
+// )(SignUp);
+
+export default SignUp;
