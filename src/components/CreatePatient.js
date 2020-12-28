@@ -224,20 +224,18 @@ function CreatePatient(props){
     }
 
     const changeImage = (event) => {
-        setImage(event.target.value);
+        setImage(event.target.files[0]);
     }
 
 
     const axios = require('axios');
-    const token = useSelector(state=>state.token);
+    const token = useSelector(state=>state.auth.token);
 
     const headers = {
-        'Content-Type': 'application/json',
         'authorization': token,
     }
 
     console.log(token);   
-    
 
     const onSubmit = (event) =>{
         event.preventDefault();
@@ -257,12 +255,14 @@ function CreatePatient(props){
                 result: result,
                 image: image,
             }
-    
-    
-    
-            axios.post('http://localhost:5000/patients/add', patient, {headers:headers})
+
+            const formData = new FormData();
+            for(let key in patient){
+                formData.append(key,patient[key]);
+            }
+            axios.post('http://localhost:5000/patients/add', formData, {headers:headers})
             .then((response)=> {console.log(response.data)})  
-            .catch((err)=>console.log(err)) 
+            .catch((err)=>console.log(err)); 
             
             window.location.reload(true);
         }
@@ -356,7 +356,7 @@ function CreatePatient(props){
                 </div>
                 <div style={formGroup}> 
                     <label style={label}>Chest X-ray Image</label>
-                    <input onChange={changeImage} style={formControl} type="file"/>
+                    <input onChange={changeImage} style={formControl} type="file" accept="image/*"/>
                 </div>
                     
                  

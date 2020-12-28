@@ -36,7 +36,8 @@ router.get('/', verifyToken, async (req,res)=>{
     const matchPatients = patients.filter((patient)=>{
       return(patient.user.facilityName === user.facilityName)
     });
-    res.json(matchPatients);
+    res.json({matchPatients, user});
+
   }catch(error){
     res.status(400).json({message:"Error While Finding Patient"});
   }

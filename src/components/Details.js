@@ -6,6 +6,7 @@ import DeleteWindow from "./DeleteWindow";
 import { ViewAgendaRounded } from '@material-ui/icons';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 
@@ -84,9 +85,15 @@ function Details(props){
     const [image, setImage] = useState(null); 
 
     const axios = require('axios');
+    const token = useSelector(state=>state.auth.token);
+    const headers = {
+        'Content-Type': 'application/json',
+        'authorization': token,
+    }
+
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/patients/${id}`)
+        axios.get(`http://localhost:5000/patients/${id}`, {headers:headers})
         .then((response) => {
             
             setName(response.data.name);

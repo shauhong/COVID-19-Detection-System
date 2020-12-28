@@ -128,7 +128,7 @@ function EditForm(props){
         setImage(event.target.value);
     }
 
-    const token = useSelector(state=>state.token);
+    const token = useSelector(state=>state.auth.token);
     const headers = {
         'Content-Type': 'application/json',
         'authorization': token,

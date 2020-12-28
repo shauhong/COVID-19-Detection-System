@@ -68,13 +68,15 @@ const Cards = () => {
     const bannerTitle={
         fontSize:'50px',
         margin:'20px',
+        color:'white',
     }
 
     const styles = useCoverCardMediaStyles();
-    const token = useSelector(state=>state.token);
+    const token = useSelector(state=>state.auth.token);
     const [patients, setPatients] = useState([]);
     const [search, setSearch] = useState('');
     const [modalIsOpen,setModalIsOpen] = useState(false);
+    const [user,setUser] = useState("");
 
 
     const changeSearch = (e) => {
@@ -98,7 +100,9 @@ const Cards = () => {
             );
     
             const json = await res.json();
-            setPatients(json);
+            setPatients(json.matchPatients);
+            setUser(json.user);
+            
             console.log(json);
 
         }catch(error){
@@ -149,7 +153,7 @@ const Cards = () => {
             <div>
             </div>
             <div>
-                <div style={bannerTitle}>{patients[0] && patients[0].user.facilityName}</div>
+                <div style={bannerTitle}>{user.facilityName}</div>
                 <SearchPatientBar handleChange={changeSearch}/>
             </div>
         </div>

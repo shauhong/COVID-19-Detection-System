@@ -23,7 +23,7 @@ function DeleteWindow(props){
     }
 
     const id = props.id;
-    const token = useSelector(state=>state.token);
+    const token = useSelector(state=>state.auth.token);
     const headers = {
         'Content-Type': 'application/json',
         'authorization': token,
