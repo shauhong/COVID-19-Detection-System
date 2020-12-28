@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
+import { setSnackbar } from '../actions';
 import { SentimentSatisfied } from '@material-ui/icons';
 import axios from 'axios';
 
 
 function CreatePatient(props){
+    const dispatch = useDispatch();
 
     const wrapper={
         paddingLeft:'15px',
@@ -115,6 +117,7 @@ function CreatePatient(props){
 
         if(name.trim().length < 1){
             nameError.emptyName = "Please fill in patient's name.";
+            dispatch(setSnackbar(true,'error',nameError.emptyName));
             isValid = false;
         }
 
@@ -168,6 +171,7 @@ function CreatePatient(props){
         setNegeriError(negeriError);
         setCityError(cityError);
         setResultError(resultError);
+        
         console.log(nameError);
         console.log(icError);
         console.log(ageError);

@@ -37,8 +37,8 @@ function Scan(){
             );
             const json = await res.json();
             if(res.ok){
-                setPatients(json);
-                console.log(patients);
+                setPatients(json.matchPatients);
+                console.log(json.matchPatients);
             }else{
                 dispatch(setSnackbar(true,'error',json.message));
             }
