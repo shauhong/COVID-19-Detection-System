@@ -28,9 +28,15 @@ function App(props) {
         <Route path="/scan">
           {props.signIn ? <Scan /> : <Redirect to="/" />}
         </Route>
-        <Route path="/patients/:id">
-          {props.signIn ? <Details /> : <Redirect to="/" />}
-        </Route>
+        <Route path="/patients/:id" render={({match})=>{
+          if(props.signIn){
+            return(<Details match={match}/>);
+          }else{
+            return(<Redirect to='/'/>)
+          }
+          }}
+        />
+
         <Route path="/patients">
           {props.signIn ? <Patients /> : <Redirect to="/" />}
         </Route>

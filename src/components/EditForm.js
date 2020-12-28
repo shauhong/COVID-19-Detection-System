@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 function EditForm(props){
@@ -80,6 +81,7 @@ function EditForm(props){
     const [city, setCity] = useState(props.city); 
     const [result, setResult] = useState(props.result); 
     const [image, setImage] = useState(props.image);
+    const id = props.id;
 
     const changeName = (event) => {
         setName(event.target.value);
@@ -126,6 +128,14 @@ function EditForm(props){
         setImage(event.target.value);
     }
 
+    const token = useSelector(state=>state.token);
+    const headers = {
+        'Content-Type': 'application/json',
+        'authorization': token,
+    }
+
+    
+
     const onSubmit = (event) =>{
         event.preventDefault();
 
@@ -143,9 +153,13 @@ function EditForm(props){
             image: image,
         }
 
-        axios.post('http://localhost:5000/patients/update/5fe43ad99dc46a2fe82b54c8', patient)
+        axios.post(`http://localhost:5000/patients/update/${id}`, patient, {headers:headers})
         .then((response)=> {console.log(response.data)})  
-        .catch((err)=>console.log(err))      
+        .catch((err)=>console.log(err)) 
+        
+        window.location.reload();
+        
+        
     }
 
 
@@ -154,7 +168,7 @@ function EditForm(props){
             <div style={title}>
                 <p>New Patient Profile</p>
             </div>
-            <form action="" method="post" style={form} onSubmit={onSubmit}>
+            <form action="" method="post" style={form} onSubmit={onSubmit} >
                 <div style={formGroup}> 
                         <label style={label}>Name</label>
                         <input onChange={changeName} style={formControl} type="text" placeholder={name} name="name"/>
@@ -239,8 +253,8 @@ function EditForm(props){
                 </div>
                     
                  
-
                 <input type="submit" value="Save" style={button}/>
+                
             </form>
         </div>
     )

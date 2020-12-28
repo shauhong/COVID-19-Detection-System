@@ -9,7 +9,6 @@ import Route from 'react-router-dom/Route';
 import CreatePatient from '../components/CreatePatient';
 
 
-
 Modal.setAppElement('#root');
 
 function App() {
@@ -38,7 +37,7 @@ function App() {
           }
         }
       >
-        <CreatePatient />
+        <CreatePatient closeModal={setModalIsOpen}/>
         <button className="closeButton" onClick={() => setModalIsOpen(false)}>Close</button>
       </Modal>
       

@@ -39,52 +39,71 @@ const useStyles = makeStyles(() => ({
       "&:hover": {
         background: "#63C5DA",
       },
-
-
     },
-
-
   }));
 
 export default function PatientCard(props){
 
 
-    const{
-        name,
-        IC,
-        gender,
-        age,
-        CXR,
-        status,
-    } = props;
+const{
+  name,
+  IC,
+  gender,
+  age,
+  phone,
+  address,
+  postal,
+  negeri,
+  city,
+  result,
+  image,
+  id,
+} = props;
 
 
-    const styles = useStyles();
-    const mediaStyles = useWideCardMediaStyles();
-    const textCardContentStyles = useN01TextInfoContentStyles();
-    const shadowStyles = useBouncyShadowStyles();
+  const styles = useStyles();
+  const mediaStyles = useWideCardMediaStyles();
+  const textCardContentStyles = useN01TextInfoContentStyles();
+  const shadowStyles = useBouncyShadowStyles();
 
-    return (
-        <Card className={cx(styles.root, shadowStyles.root)}>
-          <CardMedia
-            classes={mediaStyles}
-            image={props.CXR}
+  return (
+      <Card className={cx(styles.root, shadowStyles.root)}>
+        <CardMedia
+          classes={mediaStyles}
+          image={"https://pic1.zhimg.com/v2-57520fcc0c61fc4feb7e8f2df8864b24_b.jpeg"}
+        />
+        <CardContent className={styles.content}>
+          <TextInfoContent
+            classes={textCardContentStyles}
+            heading={props.name}
+            body={props.result}
           />
-          <CardContent className={styles.content}>
-            <TextInfoContent
-              classes={textCardContentStyles}
-              heading={props.name}
-              body={status}
-            />
-            <Link to = '/patients/1'>
-              <Button  fullWidth className={styles.cta}>
-                More Details <ChevronRightRounded/>
-              </Button>
-            </Link>
-            
-          </CardContent>
-        </Card>
-      );
+          <Link to = {`/patients/${props.id}`}>
+          {/*{{
+            pathname: `/patients/${props.id}`,
+            state:{
+              name: props.name,
+              ic:props.ic,
+              gender:props.gender,
+              age:props.age,
+              phone:props.phone, 
+              address: props.address,
+              postal:props.postal,
+              negeri:props.negeri,
+              city:props.city,
+              result:props.result,
+              image:props.image
+            }
+          }}*/}
+      
+            <Button id={props._id} fullWidth className={styles.cta}>
+              More Details <ChevronRightRounded/>
+            </Button>
+          </Link>
+          
+        </CardContent>
+      </Card>
+    );
 
 
 

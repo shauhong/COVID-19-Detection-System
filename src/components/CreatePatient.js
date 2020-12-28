@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux'
 import { SentimentSatisfied } from '@material-ui/icons';
 import axios from 'axios';
 
 
-function CreatePatient(){
+function CreatePatient(props){
 
     const wrapper={
         paddingLeft:'15px',
@@ -68,7 +69,7 @@ function CreatePatient(){
 
     const negeris = ['','Wilayah Persekutuan','Selangor','Johor','Kedah','Kelantan','Melaka',
     'Negeri Sembilan','Pahang','Penang','Perak','Perlis','Sabah','Sarawak','Terengganu'];
-    const results = ['Positive','Negative','Unknown'];
+    const results = ['','Positive','Negative','Unknown'];
     const genders = ['','Male','Female'];
     
     const [name, setName] = useState(null); 
@@ -131,6 +132,15 @@ function CreatePatient(){
 
 
     const axios = require('axios');
+    const token = useSelector(state=>state.token);
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'authorization': token,
+    }
+
+    console.log(token);   
+    
 
     const onSubmit = (event) =>{
         event.preventDefault();
@@ -147,10 +157,16 @@ function CreatePatient(){
             result: result,
             image: image,
         }
-        axios.post('http://localhost:5000/patients/add', patient)
+
+        axios.post('http://localhost:5000/patients/add', patient, {headers:headers})
         .then((response)=> {console.log(response.data)})  
-        .catch((err)=>console.log(err))      
-    }
+        .catch((err)=>console.log(err)) 
+        
+        window.location.reload(true); 
+
+        
+        }
+
 
 
     return(

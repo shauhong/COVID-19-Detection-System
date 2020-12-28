@@ -5,10 +5,14 @@ import EditForm from "./EditForm";
 import DeleteWindow from "./DeleteWindow";
 import { ViewAgendaRounded } from '@material-ui/icons';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 
-function Details(){
 
+function Details(props){
+
+    const id = props.match.params.id;
+    console.log(props);
     const [modalIsOpen,setModalIsOpen] = useState(false);
     
     const [name, setName] = useState(null); 
@@ -26,7 +30,7 @@ function Details(){
     const axios = require('axios');
 
     useEffect(() => {
-        axios.get('http://localhost:5000/patients/5fe43ad99dc46a2fe82b54c8')
+        axios.get(`http://localhost:5000/patients/${id}`)
         .then((response) => {
             
             setName(response.data.name);
@@ -74,10 +78,10 @@ function Details(){
                         }
                         }
                     >
-                        <EditForm name={name} ic={ic} age={age} gender={gender} phone={phone} address={address} postal={postal} negeri={negeri} city={city} result={result} image={image}/>
+                        <EditForm id={id} name={name} ic={ic} age={age} gender={gender} phone={phone} address={address} postal={postal} negeri={negeri} city={city} result={result} image={image}/>
                         <button className="closeButton" onClick={() => setModalIsOpen(false)}>Close</button>
-                    </Modal>
-                    */}
+                    </Modal>*/}
+                    
 
                     <button onClick={() => setModalIsOpen(true)} className="deleteButton">Delete</button>
                     
@@ -100,7 +104,7 @@ function Details(){
                         }
                         }
                     >
-                        <DeleteWindow />
+                        <DeleteWindow id={id} />
                         <div>
                             <button className="cancelButton" onClick={() => setModalIsOpen(false)}>Cancel</button>
                             <button className="closeButton" onClick={() => setModalIsOpen(false)}>Delete</button>
