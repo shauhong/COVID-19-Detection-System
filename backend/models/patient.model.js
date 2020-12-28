@@ -12,9 +12,19 @@ const patientSchema = new Schema({
   postal: { type: Number, required: true },
   negeri: { type: String, required: true },
   city: { type: String, required: true },
-  result: { type: String, required: true },
+  result: { 
+    type: String, 
+    default: "-", 
+    enum: ["-","Positive","Negative"], 
+    required: true
+  },
+  score: { type: Number },
   image: { type: String, required: true },
-  user: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+  user: { 
+    type: Schema.Types.ObjectId, 
+    required: true, 
+    ref: "User" 
+  },
 }, {
   timestamps: true,
 });

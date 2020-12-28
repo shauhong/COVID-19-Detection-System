@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
+import { signIn, setSnackbar } from '../actions';
 import * as actionTypes from "../store/actions";
 
 function Login(props) {
+  const dispatch = useDispatch();
+
   const container = {
     display: "flex",
     height: "90vh",
@@ -40,7 +43,7 @@ function Login(props) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  // const [errorMessage, setErrorMessage] = useState("");
   const history = useHistory();
 
   function handleEmail(e) {
@@ -76,11 +79,17 @@ function Login(props) {
       .then(json => {
         console.log("json", json);
         if (json.success) {
-          setErrorMessage(json.message);
-          props.setToken(json.token);
+          // setErrorMessage(json.message);
+          dispatch(signIn(json.token));
+          dispatch(setSnackbar(true,'success',json.message));
+          localStorage.signIn = true;
+          localStorage.token = json.token;
+          // localStorage.auth = {signIn:true, token:json.token};
+          // props.setToken(json.token);
           handlePage();
         } else {
-          setErrorMessage(json.message);
+          dispatch(setSnackbar(true,'error',json.message));
+          // setErrorMessage(json.message);
         }
       });
   }
@@ -116,9 +125,9 @@ function Login(props) {
             className="button bold"
             style={button}
           />
-          {errorMessage && (
+          {/* {errorMessage && (
             <p style={{ color: "red", textAlign: "center" }}>{errorMessage}</p>
-          )}
+          )} */}
           <Link to="/signup" style={subtext}>
             Sign Up
           </Link>
@@ -128,14 +137,16 @@ function Login(props) {
   );
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setToken: token =>
-      dispatch({ type: actionTypes.SIGNEDIN, userToken: token })
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     setToken: token =>
+//       dispatch({ type: actionTypes.SIGNEDIN, userToken: token })
+//   };
+// };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Login);
+// export default connect(
+//   null,
+//   mapDispatchToProps
+// )(Login);
+
+export default Login;

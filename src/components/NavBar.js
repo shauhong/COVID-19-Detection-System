@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
+import { signOut, setSnackbar } from '../actions';
 import { Link } from "react-router-dom";
 import * as actionTypes from "../store/actions";
 
 function NavBar(props) {
-  const [login, setLogin] = useState(false);
+  // const [login, setLogin] = useState(false);
+  const dispatch = useDispatch();
+  const signIn = useSelector(state=>state.auth.signIn);
 
   function handleLogout() {
-    props.emptyToken();
+    // props.emptyToken();
+    localStorage.clear();
+    dispatch(signOut());
+    dispatch(setSnackbar(true,'success','Successfully Logged Out'));
+    
   }
 
   return (
     <nav>
-      {props.signIn ? (
+      {signIn ? (
         <>
           <div className="logo">
             <Link to="/">COVID-19</Link>
@@ -48,17 +55,19 @@ function NavBar(props) {
   );
 }
 
-const mapStateToProps = state => {
-  return { token: state.token, signIn: state.signIn };
-};
+// const mapStateToProps = state => {
+//   return { token: state.token, signIn: state.signIn };
+// };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    emptyToken: () => dispatch({ type: actionTypes.SIGNEDOUT })
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     emptyToken: () => dispatch({ type: actionTypes.SIGNEDOUT })
+//   };
+// };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NavBar);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(NavBar);
+
+export default NavBar;

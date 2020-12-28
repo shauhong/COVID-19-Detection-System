@@ -11,30 +11,6 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 
-function createData(id, name, date, score){
-    return {id, name, date, score};
-}
-
-const rows = [
-    createData(1,'Unknown','2020-10-10',90),
-    createData(2,'Unknown','2020-10-10',90),
-    createData(3,'Unknown','2020-10-10',90),
-    createData(4,'Unknown','2020-10-10',90),
-    createData(5,'Unknown','2020-10-10',90),
-    createData(6,'Unknown','2020-10-10',90),
-    createData(7,'Unknown','2020-10-10',90),
-    createData(8,'Unknown','2020-10-10',90),
-    createData(9,'Unknown','2020-10-10',90),
-    createData(10,'Unknown','2020-10-10',90),
-    createData(11,'Unknown','2020-10-10',90),
-    createData(12,'Unknown','2020-10-10',90),
-    createData(13,'Unknown','2020-10-10',90),
-    createData(14,'Unknown','2020-10-10',90),
-    createData(15,'Unknown','2020-10-10',90),
-];
-
-
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -62,9 +38,9 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-    { id: 'id', numeric: false, disablePadding: false, label: 'ID',  },
-    { id: 'name', numeric: false, disablePadding: true, label: 'Name',  },
-    { id: 'date', numeric: true, disablePadding: true, label: 'Date',  },
+    { id: 'name', numeric: false, disablePadding: false, label: 'Name',  },
+    { id: 'date', numeric: false, disablePadding: true, label: 'Date',  },
+    { id: 'result', numeric: false, disablePadding: true, label: 'Result',  },
     { id: 'score', numeric: true, disablePadding: false, label: 'Score',  },
   ];
 
@@ -80,7 +56,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={headCell.id==="name"||headCell.id==="date" ? 'left' : 'right'}
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -143,12 +119,30 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function EnhancedTable() {
+export default function EnhancedTable(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('date');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  const {
+    patients,
+    handleClick,
+  } = props;
+
+  const rows = patients?
+  patients.map((patient)=>{
+    return (
+        {
+          name: patient.name,
+          date: patient.createdAt.substring(0,10), 
+          score: patient.score?patient.score:0,
+          result: patient.result,
+          patient: patient,
+        }
+      )
+  })
+  :[];
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -189,20 +183,20 @@ export default function EnhancedTable() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const labelId = `enhanced-table-checkbox-${index}`;
-
                   return (
                     <TableRow
                       hover
                       tabIndex={-1}
                       key={row.name}
                       className={classes.row}
+                      onClick={()=>handleClick(row.patient)}
                     >
                       <TableCell component="th" id={labelId} scope="row" className={classes.row}>
-                        {row.id}
+                        {row.name}
                       </TableCell>
-                      <TableCell align="left" padding="none" >{row.name}</TableCell>
-                      <TableCell align="right" padding="none" >{row.date}</TableCell>
-                      <TableCell align="right" >{row.score}</TableCell>
+                      <TableCell align="left" padding="none" >{row.date}</TableCell>
+                      <TableCell align="right" padding="none" >{row.result}</TableCell>
+                      <TableCell align="right" >{Number(row.score).toFixed(2)}</TableCell>
                     </TableRow>
                   );
                 })}

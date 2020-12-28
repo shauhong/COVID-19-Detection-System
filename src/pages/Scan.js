@@ -1,24 +1,61 @@
-import xray from '../assets/images/xray.jpg';
 import PatientTable from '../components/PatientTable';
 import * as tf from '@tensorflow/tfjs'
 import React, {useState, useEffect, useRef} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSnackbar } from '../actions';
 
 function Scan(){
+    const token = useSelector(state=>state.auth.token);
+    const dispatch = useDispatch();
     const [model,setModel] = useState(null);
     const [result,setResult] = useState(null);
+    // const [score, setScore] = useState(null);
+    // const [positive, setPositive] = useState(null);
+    const [patients,setPatients] = useState([]);
+    const [selectedPatient, setSelectedPatient] = useState(null);
+    const [xray, setXray] = useState(null);
     const imageRef = useRef();
     const label = ['COVID-19', 'Normal'];
 
-    useEffect(()=>{
-        const fetchModel = async ()=>{
-            const localModel = await tf.loadLayersModel("http://localhost:5000/ResNet50/model.json");
-            setModel(localModel);
-            console.log("Model Loaded");
+    const fetchModel = async ()=>{
+        const localModel = await tf.loadLayersModel("http://localhost:5000/assets/ResNet50/model.json");
+        setModel(localModel);
+        console.log("Model Loaded");
+    }
+
+    const getPatientsRequest = async () => {
+        try{
+            const res = await fetch(
+                'http://localhost:5000/patients/',
+                {
+                    method: "GET",
+                    headers:{
+                    "Content-Type": "application/json",
+                    "Authorization": token,
+                    }
+                },
+            );
+            const json = await res.json();
+            if(res.ok){
+                setPatients(json);
+                console.log(patients);
+            }else{
+                dispatch(setSnackbar(true,'error',json.message));
+            }
+        }catch(error){
+            dispatch(setSnackbar(true,'error','Request Error'));
         }
+    }
+
+    useEffect(()=>{
         fetchModel();
     },[]);
 
-    const handleClick = async ()=> {
+    useEffect(()=>{
+        getPatientsRequest();
+    },[result]);
+
+    const handleScan = async ()=> {
         const scanImage = imageRef.current;
         let tensor = tf.browser.fromPixels(scanImage);
         tensor = tf.image.resizeNearestNeighbor(tensor, [224,224]);
@@ -29,12 +66,37 @@ function Scan(){
         console.log(predictions);
         const results = [];
         predictions.map((prediction,index)=>{
-            results[index] = parseFloat(prediction*100).toFixed(2);
+            results[index] = parseFloat(prediction*100);
         })
         setResult(results);
+        try{
+            const res = await fetch(
+                `http://localhost:5000/patients/updateStatus/${selectedPatient._id}`,
+                {
+                    method: "POST",
+                    headers:{
+                        "Content-Type": "application/json",
+                        "Authorization": token,
+                    },
+                    body: JSON.stringify({result:results[0]>50?"Positive":"Negative", score:results[0]}),
+                }
+            );
+            const json = await res.json();
+            if(res.ok){
+                dispatch(setSnackbar(true,'success',json.message));
+            }else{
+                dispatch(setSnackbar(true,'error',json.message));
+            }
+        }catch(error){
+            dispatch(setSnackbar(true,'error','Request Error'));
+        }
     }
-     
 
+    const handleClick = (patient) => {
+        setSelectedPatient(patient);
+        setXray(patient.image);
+    }
+    
     const wrapper = {
         height: '90vh',
         width: '100%',
@@ -80,14 +142,14 @@ function Scan(){
         alignItems: 'center',
         margin: '60px auto',
     }
-    const positive = {
+    const positiveStatus = {
         backgroundColor: 'rgb(0,63,255)',
         color: 'rgb(255,255,255)',
         textAlign: 'center',
         padding: '20px',
         width: '30%',
     }
-    const negative = {
+    const negativeStatus = {
         backgroundColor: 'rgba(240,240,240,50%)',
         color: 'dimgray',
         textAlign: 'center',
@@ -104,7 +166,7 @@ function Scan(){
     }
     const barFill = {
         backgroundColor: 'rgb(0,63,255)',
-        width: '90%',
+        width: result?`${result[0]}%`:0,
         height: '36px',
     }
   
@@ -119,10 +181,20 @@ function Scan(){
     return(
         <div style={wrapper}>
             <div style={information}>
-                <PatientTable/>
+                <PatientTable
+                    patients={patients}
+                    handleClick={handleClick}
+                />
             </div>
             <div style={panel}>
-                <img src={xray} style={image} ref={imageRef} /> 
+                {
+                    selectedPatient &&
+                    <img 
+                    crossOrigin='anonymous'
+                    src={`http://localhost:5000/assets/images/${xray.substring(13)}`} 
+                    style={image} 
+                    ref={imageRef} /> 
+                }
             </div>
             <div style={analysis}>
                 <div style={container}>
@@ -130,12 +202,29 @@ function Scan(){
                         <div>
                         <p className="sm-text bold">Result</p>
                         <div style={group}>
-                            <div style={positive}>
-                                <p className="sm-text bold">Positive</p>
-                            </div>
-                            <div style={negative}>
-                                <p className="sm-text bold">Negative</p>
-                            </div>
+                            {
+                                result && result[0]>50
+                                ?
+                                (
+                                <>
+                                    <div style={positiveStatus}>
+                                        <p className="sm-text bold">Positive</p>
+                                    </div>
+                                    <div style={negativeStatus}>
+                                        <p className="sm-text bold">Negative</p>
+                                    </div>
+                                </>
+                                )
+                                :
+                                <>
+                                    <div style={negativeStatus}>
+                                        <p className="sm-text bold">Positive</p>
+                                    </div>
+                                    <div style={positiveStatus}>
+                                        <p className="sm-text bold">Negative</p>
+                                    </div>
+                                </>
+                            }
                         </div>
                         </div>
                         <div>
@@ -149,7 +238,7 @@ function Scan(){
                                         return(
                                             <div>
                                                 <p className="md-text bold">{label[index]}</p>
-                                                <p className="md-text bold" style={{textAlign: 'center', padding:'10px 0px'}}>{item}</p>
+                                                <p className="md-text bold" style={{textAlign: 'center', padding:'10px 0px'}}>{Number(item).toFixed(2)}</p>
                                             </div>
                                         ) 
                                     }
@@ -158,7 +247,7 @@ function Scan(){
                             </div>
                         </div>
                     </div>
-                    {model && <button style={lowerPane} className="button sm-text bold" onClick={handleClick}>Scan</button>}
+                    {model && <button style={lowerPane} className="button sm-text bold" onClick={handleScan}>Scan</button>}
                 </div>                
             </div>
         </div>
