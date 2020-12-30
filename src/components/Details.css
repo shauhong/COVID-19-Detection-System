@@ -24,10 +24,12 @@ div{
     box-sizing: content-box;
     position: relative;
     min-height: 50px;
-    background:#396592;
+    /* background:#396592; */
     color:white;
     border-bottom: 1px solid #DDD;
     padding-left: 12px;
+
+    background:rgb(0,0,0);
 }
 
 .header > .title{
@@ -63,6 +65,8 @@ div{
     padding-bottom: 2px;
     padding-left: 5px;
     padding-right: 5px;
+    /**/
+    /* color:white; */
     /* font-weight: bold; */
 }
 
@@ -75,6 +79,7 @@ div{
     padding-left: 5px;
     padding-right: 5px;
     /* font-weight: bold; */
+    /* color:white; */
 }
 
 .editButton:hover{

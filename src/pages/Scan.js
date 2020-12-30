@@ -3,7 +3,7 @@ import * as tf from '@tensorflow/tfjs'
 import React, {useState, useEffect, useRef} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar, setBackdrop } from '../actions';
-import { CircularProgressbar, CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
+import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 function Scan(){
@@ -104,10 +104,14 @@ function Scan(){
         text:'inherit',
         // initialAnimation: true,
         pathTransitionDuration: 0.5,
+        // pathColor: selectedPatient && 
+        // selectedPatient.score ? 
+        // `rgba(0, 63, 255, ${selectedPatient.score}%`: 
+        // `rgba(0, 63, 255, 0%`,
         pathColor: selectedPatient && 
         selectedPatient.score ? 
-        `rgba(0, 63, 255, ${selectedPatient.score}%`: 
-        `rgba(0, 63, 255, 0%`,
+        `rgba(0, 68, 139, ${selectedPatient.score}%`: 
+        `rgba(0, 68, 139, 0%`,
         textColor: 'rgb(0,0,0)',
         trailColor: '#d6d6d6',
         backgroundColor: '#3e98c7',
@@ -120,12 +124,15 @@ function Scan(){
         textSize: '16px',
         // initialAnimation: true,
         pathTransitionDuration: 0.5,
+        // pathColor: selectedPatient && 
+        // selectedPatient.score ? 
+        // `rgba(0, 63, 255, ${100-selectedPatient.score}%`: 
+        // `rgba(0, 63, 255, 0%`,
         pathColor: selectedPatient && 
         selectedPatient.score ? 
-        `rgba(0, 63, 255, ${selectedPatient.score}%`: 
-        `rgba(0, 63, 255, 0%`,
+        `rgba(0, 68, 139, ${100-selectedPatient.score}%`: 
+        `rgba(0, 68, 139, 0%`,
         textColor: 'rgb(0,0,0)',
-
         trailColor: '#d6d6d6',
         backgroundColor: '#3e98c7',
         fontWeight: 700,
@@ -178,7 +185,8 @@ function Scan(){
         margin: '60px auto',
     }
     const positiveStatus = {
-        backgroundColor: 'rgb(0,63,255)',
+        // backgroundColor: 'rgb(0,63,255)',
+        backgroundColor: 'rgb(0,68,139)',
         color: 'rgb(255,255,255)',
         boxShadow: '5px 5px 5px rgba(0,0,0,15%)',
         textAlign: 'center',
@@ -288,7 +296,8 @@ function Scan(){
                                 {
                                     selectedPatient 
                                     && selectedPatient.score 
-                                    &&
+                                    ?
+                                    <>
                                     <div style={circle}>
                                     <div style={circleBar}>
                                     <CircularProgressbarWithChildren styles={positiveStyles} value={selectedPatient.score}>
@@ -301,22 +310,36 @@ function Scan(){
                                         <div><p style={{fontSize: 24, fontWeight: 'bold'}}>{`${(100-selectedPatient.score).toFixed(2)}%`}</p></div>
                                         <div><p style={{fontSize: 16, fontWeight: 'bold'}}>Normal</p></div>
                                     </CircularProgressbarWithChildren>
-                                    {/* <CircularProgressbar styles={negativeStyles} initialAnimation value={100-selectedPatient.score}  text={`${(100-selectedPatient.score).toFixed(2)}%`}/> */}
                                     </div> 
-                                    {/* <div>
-                                        <p className="md-text bold">COVID-19</p>
-                                        <p className="md-text bold" style={{textAlign: 'center', padding:'10px 0px'}}>{Number(selectedPatient.score).toFixed(2)}</p>
                                     </div>
-                                    <div>
-                                      <p className="md-text bold">Normal</p>
-                                      <p className="md-text bold" style={{textAlign: 'center', padding:'10px 0px'}}>{(100-Number(selectedPatient.score)).toFixed(2)}</p>
-                                    </div> */}
+                                    </>
+                                    :
+                                    <>
+                                    <div style={circle}>
+                                    <div style={circleBar}>
+                                    <CircularProgressbarWithChildren styles={positiveStyles} value={0}>
+                                        <div><p style={{fontSize: 24, fontWeight: 'bold'}}>{`0%`}</p></div>
+                                        <div><p style={{fontSize: 16, fontWeight: 'bold'}}>COVID-19</p></div>
+                                    </CircularProgressbarWithChildren>
+                                    </div> 
+                                    <div style={circleBar}> 
+                                    <CircularProgressbarWithChildren styles={negativeStyles} value={0}>
+                                        <div><p style={{fontSize: 24, fontWeight: 'bold'}}>{`0%`}</p></div>
+                                        <div><p style={{fontSize: 16, fontWeight: 'bold'}}>Normal</p></div>
+                                    </CircularProgressbarWithChildren>
+                                    </div> 
                                     </div>
+                                    </>
+                                    
                                 }
                             </div>
                         </div>
                     </div>
-                    {model && <button style={lowerPane} className="button sm-text bold" onClick={handleScan}>Scan</button>}
+                    {
+                        model && selectedPatient
+                        ?<button style={lowerPane} className="button sm-text bold" onClick={handleScan}>Scan</button>
+                        :<button style={lowerPane} className="button sm-text bold" onClick={handleScan} disabled>Scan</button>
+                    }
                 </div>                
             </div>
         </div>

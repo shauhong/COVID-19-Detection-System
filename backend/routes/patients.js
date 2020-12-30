@@ -87,9 +87,7 @@ router.post('/updateStatus/:id', verifyToken, async(req,res)=>{
   try{
     const patient = await Patient.findById(patientId);
     patient.result = req.body.result;
-    patient.score = Number(req.body.score);
-    console.log("Backend result: "+ req.body.result);
-    console.log("Backend score: "+ req.body.score);
+    patient.score = Number(req.body.score);s
     const saved = await patient.save();
     res.json({message:"Successfully Updated Status", saved});
   }catch(error){
@@ -152,6 +150,41 @@ router.delete('/:id', verifyToken, async(req, res)=>{
     res.status(200).json({message:"Patient Removed", success:true, removed});
   }catch(error){
     res.status(400).json({message:"Delete Patient Error"});
+  }
+});
+
+//Get Number of All Patients for Each States
+router.get('/states/all', verifyToken, async(req,res)=>{
+  const number={};
+  try{
+    const patients = await Patient.find();
+    patients.forEach((patient)=>{
+      let state = patient.negeri;
+      number[state] = number[state]? number[state] + 1: 1;
+    });
+    res.json(number);
+  }catch(error){
+    res.status(400).json({message:"Get Patients Error"})
+  }
+});
+
+//Get Number of Patients of the Facility for Each States
+router.get('/states/local', verifyToken, async(req,res)=>{
+  const number={};
+  const userId = req.user;
+  try{  
+    const user = await User.findById(userId);
+    const patients = await Patient.find().populate('user');
+    const matchPatients = patients.filter((patient)=>{
+      return(patient.user.facilityName === user.facilityName)
+    });
+    matchPatients.forEach((patient)=>{
+      let state = patient.negeri;
+      number[state] = number[state]? number[state] + 1: 1;
+    });
+    res.json(number);
+  }catch(error){
+    res.status(400).json({message:"Error While Finding Patient"});
   }
 });
 

@@ -7,6 +7,10 @@ import { ViewAgendaRounded } from '@material-ui/icons';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+
 
 
 
@@ -124,7 +128,10 @@ function Details(props){
                     <b>{name}</b>
                 </h4>
                 <div className="buttons">
-                    <button onClick={() => setEditModalIsOpen(true)} className="editButton">Edit</button>
+                    {/* <button onClick={() => setEditModalIsOpen(true)} className="editButton">Edit</button> */}
+                    <IconButton onClick={() => setEditModalIsOpen(true)} className="editButton">
+                        <EditIcon style={{color:'white'}}/>
+                    </IconButton>
                     <Modal classname="EditModal"
                         isOpen={editModalIsOpen} 
                         onRequestClose={() => setEditModalIsOpen(false)}
@@ -143,11 +150,15 @@ function Details(props){
                         }
                     >
                         <EditForm id={id} name={name} ic={ic} age={age} gender={gender} phone={phone} address={address} postal={postal} negeri={negeri} city={city} result={result} image={image}/>
+                        {/* <button className="closeButton" onClick={() => setEditModalIsOpen(false)}>Close</button> */}
                         <button className="closeButton" onClick={() => setEditModalIsOpen(false)}>Close</button>
                     </Modal>
                     
 
-                    <button onClick={() => setDeleteModalIsOpen(true)} className="deleteButton">Delete</button>
+                    {/* <button onClick={() => setDeleteModalIsOpen(true)} className="deleteButton">Delete</button> */}
+                    <IconButton color={'action'} onClick={() => setDeleteModalIsOpen(true)} className="deleteButton">
+                        <DeleteForeverIcon style={{color:'white'}}/>
+                    </IconButton>
                     
                     <Modal classname="DeleteModal"
                         isOpen={deleteModalIsOpen} 

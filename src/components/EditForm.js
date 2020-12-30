@@ -43,8 +43,8 @@ function EditForm(props){
     const button={
         width: '100%',
         height: '32px',
-        backgroundColor: 'darkblue',
-        color: 'rgb(255,255,255)',
+        // backgroundColor: 'darkblue',
+        // color: 'rgb(255,255,255)',
         cursor: 'pointer',
         marginTop: '5px',
     };
@@ -348,7 +348,8 @@ function EditForm(props){
                     <input onChange={changeImage} style={formControl} type="file" accept="image/*"/>
                 </div> 
 
-                <input type="submit" value="Save" style={button}/>
+                {/* <input type="submit" value="Save" style={button}/> */}
+                <input type="submit" value="Save" style={button} className="control-button"/>
                 
             </form>
         </div>

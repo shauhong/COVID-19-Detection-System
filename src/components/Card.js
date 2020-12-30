@@ -40,6 +40,16 @@ const useStyles = makeStyles(() => ({
       "&:hover": {
         background: "#63C5DA",
       },
+    // cta: {
+    //   marginTop: 20,
+    //   textTransform: 'initial',
+    //   backgroundColor:'black',
+    //   color:"white",
+
+    //   "&:hover": {
+    //     background: "#d6d6d6",
+    //     color: 'black',
+    //   },
     },
   }));
 
@@ -87,7 +97,6 @@ const{
               More Details <ChevronRightRounded/>
             </Button>
           </Link>
-          
         </CardContent>
       </Card>
     );

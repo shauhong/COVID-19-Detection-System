@@ -20,13 +20,13 @@ function PatientSearchBar(props){
     }
 
     const button = {
-        backgroundColor: 'rgb(0,0,0)',
-        color: 'rgb(255,255,255)',
+        // backgroundColor: 'rgb(0,0,0)',
+        // color: 'rgb(255,255,255)',
         width: '108px',
         height: '32px',
-        boxShadow: '5px 5px 10px rgba(0,0,0,16%)',
-        font: 'inherit',
-        cursor: 'pointer',
+        // boxShadow: '5px 5px 10px rgba(0,0,0,16%)',
+        // font: 'inherit',
+        // cursor: 'pointer',
     }
 
 
@@ -34,7 +34,7 @@ function PatientSearchBar(props){
         <form action='' method="get">
             <div style={searchBar}>
                 <input style={searchTerm} type="search" placeholder="Search Patient" name="Name" onChange={props.handleChange}/>
-                <input style={button} type="submit" value="Search"/>
+                <input style={button} className="black-button sm-text bold shadow-effect" type="submit" value="Search"/>
             </div>
         </form>
     )

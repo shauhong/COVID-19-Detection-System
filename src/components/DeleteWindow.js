@@ -11,7 +11,8 @@ function DeleteWindow(props){
     }
 
     const closeButton = {
-        backgroundColor: "darkBlue",
+        // backgroundColor: "darkBlue",
+        backgroundColor: 'black',
         color: "white",
         paddingLeft: "8px",
         paddingRight: "8px",

@@ -257,7 +257,8 @@ function SignUp() {
             type="submit"
             value="Sign Up"
             style={button}
-            className="button bold"
+            // className="button bold"
+            className="control-button bold"
             onClick={handleSubmit}
           />
           <Link style={subtext} to="/login">
