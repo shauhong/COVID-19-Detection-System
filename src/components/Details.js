@@ -72,17 +72,17 @@ function Details(props){
     const [editModalIsOpen,setEditModalIsOpen] = useState(false);
     const [deleteModalIsOpen,setDeleteModalIsOpen] = useState(false);
     
-    const [name, setName] = useState(null); 
-    const [ic, setIC] = useState(null); 
-    const [age, setAge] = useState(0); 
-    const [gender, setGender] = useState(null); 
-    const [phone, setPhone] = useState(null); 
-    const [address, setAddress] = useState(null); 
-    const [postal, setPostal] = useState(0); 
-    const [negeri, setNegeri] = useState(null); 
-    const [city, setCity] = useState(null); 
-    const [result, setResult] = useState(null); 
-    const [image, setImage] = useState(null); 
+    const [name, setName] = useState(""); 
+    const [ic, setIC] = useState(""); 
+    const [age, setAge] = useState(""); 
+    const [gender, setGender] = useState(""); 
+    const [phone, setPhone] = useState(""); 
+    const [address, setAddress] = useState(""); 
+    const [postal, setPostal] = useState(""); 
+    const [negeri, setNegeri] = useState(""); 
+    const [city, setCity] = useState(""); 
+    const [result, setResult] = useState(""); 
+    const [image, setImage] = useState(""); 
 
     const axios = require('axios');
     const token = useSelector(state=>state.auth.token);
@@ -180,7 +180,7 @@ function Details(props){
             <div className="Flexbox">
                 <div className="flexItem"> 
                     <div className="image">
-                        <img height="450px" width="450px" src="https://prod-images-static.radiopaedia.org/images/903193/06eb041ff51e064424ba056806564a_jumbo.jpg"></img>
+                        <img height="450px" width="450px" src={`http://localhost:5000/assets/images/${image.substring(13)}`}></img>
                     </div>
                 </div>
 
@@ -227,53 +227,6 @@ function Details(props){
                         </div>            
                     </div>
                 </div>
-                
-                {/*<table className="table">
-                        <tr>
-                            <th color="black">NRIC No.</th>
-                            <th>{ic}</th>
-                        </tr>
-                        <tr>
-                            <th classname="Butir">Age</th>
-                            <th>{age}</th>
-                        </tr>
-                        <tr>
-                            <th classname="Butir">Gender</th>
-                            <th>{gender}</th>
-                        </tr>
-                        <tr>
-                            <th color="black">Contact No.</th>
-                            <th>{phone}</th>
-                        </tr>
-                        <tr>
-                            <th classname="Butir">Address</th>
-                            <th>{address}</th>
-                        </tr>
-                        <tr>
-                            <th color="black">Postal Code</th>
-                            <th>{postal}</th>
-                        </tr>
-                        <tr>
-                            <th color="black">State</th>
-                            <th>{negeri}</th>
-                        </tr>
-                        <tr>
-                            <th classname="Butir">City</th>
-                            <th>{city}</th>
-                        </tr>
-                        <tr>
-                            <th classname="Butir">Result</th>
-                            <th>{result}</th>
-                        </tr>
-                        <tr>
-                            <th classname="Butir">Image</th>
-                            <th>{image}</th>
-                        </tr>
-                        
-                </table>*/}
-                
-                
-
             </div>
         </div>
     )

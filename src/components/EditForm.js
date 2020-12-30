@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSnackbar } from '../actions';
 import axios from 'axios';
 
 function EditForm(props){
+
+    const dispatch = useDispatch();
 
     const wrapper={
         paddingLeft:'15px',
@@ -79,9 +82,93 @@ function EditForm(props){
     const [postal, setPostal] = useState(props.postal); 
     const [negeri, setNegeri] = useState(props.negeri); 
     const [city, setCity] = useState(props.city); 
-    const [result, setResult] = useState(props.result); 
     const [image, setImage] = useState(props.image);
     const id = props.id;
+
+    const [nameError, setNameError] = useState("");
+    const [icError, setIcError] = useState("");
+    const [ageError, setAgeError] = useState("");
+    const [genderError, setGenderError] = useState("");
+    const [phoneError, setPhoneError] = useState("");
+    const [addressError, setAddressError] = useState("");
+    const [postalError, setPostalError] = useState("");
+    const [negeriError, setNegeriError] = useState("");
+    const [cityError, setCityError] = useState("");
+
+    const formValidation = () => {
+        const nameError = {};
+        const icError = {};
+        const ageError = {};
+        const genderError = {};
+        const phoneError = {};
+        const addressError = {};
+        const postalError = {};
+        const negeriError = {};
+        const cityError = {};
+
+        let isValid = true;
+
+        if(name.trim().length < 1){
+            nameError.emptyName = "Please fill in patient's name.";
+            dispatch(setSnackbar(true,'error', nameError.emptyName));
+            isValid = false;
+        }
+
+        if(ic.trim().length < 1){
+            icError.emptyIc = "Please fill in patient's NRIC number.";
+            dispatch(setSnackbar(true,'error', icError.emptyIc));
+            isValid = false;
+        }
+
+        if((age.toString()).trim().length < 1){
+            ageError.emptyAge = "Please fill in patient's age.";
+            dispatch(setSnackbar(true,'error', ageError.emptyAge));
+            isValid = false;
+        }
+
+        if(phone.trim().length < 1){
+            phoneError.emptyPhone = "Please fill in patient's contact number.";
+            dispatch(setSnackbar(true,'error', phoneError.emptyPhone));
+            isValid = false;
+        }
+
+        if(address.trim().length < 1){
+            addressError.emptyAddress = "Please fill in patient's address.";
+            dispatch(setSnackbar(true,'error', addressError.emptyAddress));
+            isValid = false;
+        }
+
+        if((postal.toString()).trim().length < 1){
+            postalError.emptyPostal = "Please fill in patient's postal code.";
+            dispatch(setSnackbar(true,'error', postalError.emptyPostal));
+            isValid = false;
+        }
+
+        if(negeri.trim().length < 1){
+            negeriError.emptyNegeri = "Please fill in patient's state of ";
+            dispatch(setSnackbar(true,'error', negeriError.emptyNegeri));
+            isValid = false;
+        }
+
+        if(city.trim().length < 1){
+            cityError.emptyCity = "Please fill in patient's city.";
+            dispatch(setSnackbar(true,'error', cityError.emptyCity));
+            isValid = false;
+        }
+
+        setNameError(nameError);
+        setIcError(icError);
+        setAgeError(ageError);
+        setGenderError(genderError);
+        setPhoneError(phoneError);
+        setAddressError(addressError);
+        setPostalError(postalError);
+        setNegeriError(negeriError);
+        setCityError(cityError);
+
+        return isValid;
+    }
+
 
     const changeName = (event) => {
         setName(event.target.value);
@@ -120,17 +207,17 @@ function EditForm(props){
         setCity(event.target.value);
     }
 
-    const changeResult = (event) => {
-        setResult(event.target.value);
-    }
+    // const changeImage = (event) => {
+    //     setImage(event.target.value);
+    // }
 
     const changeImage = (event) => {
-        setImage(event.target.value);
+        setImage(event.target.files[0]);
     }
+
 
     const token = useSelector(state=>state.auth.token);
     const headers = {
-        'Content-Type': 'application/json',
         'authorization': token,
     }
 
@@ -138,26 +225,30 @@ function EditForm(props){
 
     const onSubmit = (event) =>{
         event.preventDefault();
+        const isValid = formValidation();
 
-        const patient = {
-            name: name,
-            ic: ic,
-            age: age,
-            gender: gender,
-            phone: phone,
-            address: address,
-            postal: postal,
-            negeri: negeri,
-            city: city,
-            result: result,
-            image: image,
+        if(isValid){
+            const patient = {
+                name: name,
+                ic: ic,
+                age: age,
+                gender: gender,
+                phone: phone,
+                address: address,
+                postal: postal,
+                negeri: negeri,
+                city: city,
+                image: image,
+            }
+    
+            axios.post(`http://localhost:5000/patients/update/${id}`, patient, {headers:headers})
+            .then((response)=> {console.log(response.data)})  
+            .catch((err)=>console.log(err)) 
+            
+            window.location.reload(true);
         }
 
-        axios.post(`http://localhost:5000/patients/update/${id}`, patient, {headers:headers})
-        .then((response)=> {console.log(response.data)})  
-        .catch((err)=>console.log(err)) 
         
-        window.location.reload();
         
         
     }
@@ -233,7 +324,7 @@ function EditForm(props){
                     </div>
                 </div>
                 
-                <div style={formGroup}> 
+                {/* <div style={formGroup}> 
                         <label style={label}>Result</label>
                         <select onChange={changeResult} style={formControl}>
                             {
@@ -246,13 +337,17 @@ function EditForm(props){
                                 })
                             }
                         </select>
-                </div>
+                </div> 
                 <div style={formGroup}> 
                     <label style={label}>Chest X-ray Image</label>
                     <input onChange={changeImage} style={formControl} type="text"/>
-                </div>
-                    
-                 
+                </div>*/}
+
+                <div style={formGroup}> 
+                    <label style={label}>Chest X-ray Image</label>
+                    <input onChange={changeImage} style={formControl} type="file" accept="image/*"/>
+                </div> 
+
                 <input type="submit" value="Save" style={button}/>
                 
             </form>

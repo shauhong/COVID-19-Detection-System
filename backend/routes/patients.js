@@ -58,7 +58,6 @@ router.post('/add', verifyToken, upload.single('image'), async(req,res)=>{
   const postal = req.body.postal;
   const negeri = req.body.negeri;
   const city = req.body.city;
-  // const result = req.body.result;
   const image = req.file.path;
 
   try{
@@ -109,7 +108,6 @@ router.post('/update/:id', verifyToken, upload.single('image'), async(req,res)=>
   const postal = req.body.postal;
   const negeri = req.body.negeri;
   const city = req.body.city;
-  const result = req.body.result;
   let image = req.body.image;
   if(req.file){
     image = req.file.path;
@@ -119,14 +117,13 @@ router.post('/update/:id', verifyToken, upload.single('image'), async(req,res)=>
     const patient = await Patient.findById(patientId);
     patient.name = name;
     patient.ic = ic;
-    patient.age = Number(age);
+    patient.age = age;
     patient.gender = gender;
     patient.phone = phone;
     patient.address = address;
-    patient.postal = Number(postal);
+    patient.postal = postal;
     patient.negeri = negeri;
     patient.city = city;
-    patient.result = result;
     patient.image = image;
     const saved = await patient.save();
     res.json({message:"Patient Updated", success:true, saved});

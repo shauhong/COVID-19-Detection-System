@@ -7,7 +7,6 @@
     max-width: 1000px;
     min-height: 600px;
 
-    
 }
 
 .image{
@@ -64,6 +63,7 @@ div{
     padding-bottom: 2px;
     padding-left: 5px;
     padding-right: 5px;
+    /* font-weight: bold; */
 }
 
 .deleteButton{
@@ -74,7 +74,7 @@ div{
     padding-bottom: 2px;
     padding-left: 5px;
     padding-right: 5px;
-
+    /* font-weight: bold; */
 }
 
 .editButton:hover{
