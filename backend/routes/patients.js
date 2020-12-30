@@ -111,7 +111,7 @@ router.post('/update/:id', verifyToken, upload.single('image'), async(req,res)=>
   const city = req.body.city;
   const result = req.body.result;
   let image = req.body.image;
-  if(req.file.path){
+  if(req.file){
     image = req.file.path;
   }
   

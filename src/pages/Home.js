@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
-import background from '../assets/images/background.jpg'
-import About from '../components/About'
+import { useSelector } from 'react-redux';
+import background from '../assets/images/background.jpg';
+import About from '../components/About';
+
 function Home(){
+    const signIn = useSelector(state=>state.auth.signIn);
+
     const landing = {
         height: '90vh',
         width: '100%',
@@ -30,7 +34,7 @@ function Home(){
         <div>
             <div style={landing}>
                 <p style={text} className="xlg-text bold">Innovate COVID-19<br/>Detection with<br/>Artificial Intelligence</p>
-                <Link to="/">
+                <Link to={signIn? "/scan":"/login"}>
                     <button style={button} className="button sm-text bold shadow-effect">Start Now</button>
                 </Link>
             </div>

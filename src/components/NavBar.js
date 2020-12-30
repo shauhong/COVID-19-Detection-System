@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { connect, useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { signOut, setSnackbar } from '../actions';
 import { Link } from "react-router-dom";
-import * as actionTypes from "../store/actions";
 
-function NavBar(props) {
-  // const [login, setLogin] = useState(false);
+function NavBar() {
   const dispatch = useDispatch();
   const signIn = useSelector(state=>state.auth.signIn);
 
   function handleLogout() {
-    // props.emptyToken();
     localStorage.clear();
     dispatch(signOut());
-    dispatch(setSnackbar(true,'success','Successfully Logged Out'));
-    
+    dispatch(setSnackbar(true,'success','Successfully Logged Out'));   
   }
 
   return (
@@ -25,6 +21,9 @@ function NavBar(props) {
             <Link to="/">COVID-19</Link>
           </div>
           <ul className="nav-links">
+            <Link to="/">
+              <li>Home</li>
+            </Link>
             <Link to="/scan">
               <li>Scan</li>
             </Link>
@@ -34,7 +33,7 @@ function NavBar(props) {
             <Link to="/statistics">
               <li>Dashboard</li>
             </Link>
-            <Link to="/login">
+            <Link to="/">
               <li onClick={handleLogout}>Logout</li>
             </Link>
           </ul>

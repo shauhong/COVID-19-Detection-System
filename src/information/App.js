@@ -1,12 +1,12 @@
 import './App.css';
 import React, {useState} from 'react';
 import Cards from "../components/Cards";
-import Details from "../components/Details";
+// import Details from "../components/Details";
 import Modal from 'react-modal';
-import NewForm from "../components/NewForm";
-import { BrowserRouter as Router, link } from 'react-router-dom';
-import Route from 'react-router-dom/Route';
-import CreatePatient from '../components/CreatePatient';
+// import NewForm from "../components/NewForm";
+// import { BrowserRouter as Router, link } from 'react-router-dom';
+// import Route from 'react-router-dom/Route';
+// import CreatePatient from '../components/CreatePatient';
 
 
 Modal.setAppElement('#root');

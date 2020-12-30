@@ -2,70 +2,71 @@ import PatientTable from '../components/PatientTable';
 import * as tf from '@tensorflow/tfjs'
 import React, {useState, useEffect, useRef} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSnackbar } from '../actions';
+import { setSnackbar, setBackdrop } from '../actions';
+import { CircularProgressbar, CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 function Scan(){
     const token = useSelector(state=>state.auth.token);
     const dispatch = useDispatch();
     const [model,setModel] = useState(null);
     const [result,setResult] = useState(null);
-    // const [score, setScore] = useState(null);
-    // const [positive, setPositive] = useState(null);
     const [patients,setPatients] = useState([]);
     const [selectedPatient, setSelectedPatient] = useState(null);
     const [xray, setXray] = useState(null);
     const imageRef = useRef();
-    const label = ['COVID-19', 'Normal'];
-
-    const fetchModel = async ()=>{
-        const localModel = await tf.loadLayersModel("http://localhost:5000/assets/ResNet50/model.json");
-        setModel(localModel);
-        console.log("Model Loaded");
-    }
-
-    const getPatientsRequest = async () => {
-        try{
-            const res = await fetch(
-                'http://localhost:5000/patients/',
-                {
-                    method: "GET",
-                    headers:{
-                    "Content-Type": "application/json",
-                    "Authorization": token,
-                    }
-                },
-            );
-            const json = await res.json();
-            if(res.ok){
-                setPatients(json.matchPatients);
-                console.log(json.matchPatients);
-            }else{
-                dispatch(setSnackbar(true,'error',json.message));
-            }
-        }catch(error){
-            dispatch(setSnackbar(true,'error','Request Error'));
-        }
-    }
 
     useEffect(()=>{
+        const fetchModel = async ()=>{
+            dispatch(setBackdrop(true));
+            const localModel = await tf.loadLayersModel("http://localhost:5000/assets/ResNet50/model.json");
+            setModel(localModel);
+            console.log("Model Loaded");
+            dispatch(setBackdrop(false));
+        };
         fetchModel();
-    },[]);
+    }, [dispatch]);
 
     useEffect(()=>{
+        const getPatientsRequest = async () => {
+            try{
+                const res = await fetch(
+                    'http://localhost:5000/patients/',
+                    {
+                        method: "GET",
+                        headers:{
+                        "Content-Type": "application/json",
+                        "Authorization": token,
+                        }
+                    },
+                );
+                const json = await res.json();
+                if(res.ok){
+                    setPatients(json.matchPatients);
+                    console.log(json.matchPatients);
+                }else{
+                    dispatch(setSnackbar(true,'error',json.message));
+                }
+            }catch(error){
+                dispatch(setSnackbar(true,'error','Request Error'));
+            }
+        }
         getPatientsRequest();
-    },[result]);
+    }, [result, dispatch, token]);
 
     const handleScan = async ()=> {
+        dispatch(setBackdrop(true));
         const scanImage = imageRef.current;
         let tensor = tf.browser.fromPixels(scanImage);
         tensor = tf.image.resizeNearestNeighbor(tensor, [224,224]);
         tensor = tensor.toFloat().div(255).expandDims();
         console.log("Preprocessed");
         const predictions = await model.predict(tensor).data();
+        dispatch(setBackdrop(false));
         console.log("Predicted");
         console.log(predictions);
         const results = [];
-        predictions.map((prediction,index)=>{
+        predictions.forEach((prediction,index)=>{
             results[index] = parseFloat(prediction*100);
         })
         setResult(results);
@@ -96,6 +97,39 @@ function Scan(){
         setSelectedPatient(patient);
         setXray(patient.image);
     }
+
+    const positiveStyles = buildStyles({
+        // strokeLinecap: 'butt',
+        textSize: '16px',
+        text:'inherit',
+        // initialAnimation: true,
+        pathTransitionDuration: 0.5,
+        pathColor: selectedPatient && 
+        selectedPatient.score ? 
+        `rgba(0, 63, 255, ${selectedPatient.score}%`: 
+        `rgba(0, 63, 255, 0%`,
+        textColor: 'rgb(0,0,0)',
+        trailColor: '#d6d6d6',
+        backgroundColor: '#3e98c7',
+        // font: 'inherit',
+        // fontWeight: 400,
+    });
+
+    const negativeStyles = buildStyles({
+        // strokeLinecap: 'butt',
+        textSize: '16px',
+        // initialAnimation: true,
+        pathTransitionDuration: 0.5,
+        pathColor: selectedPatient && 
+        selectedPatient.score ? 
+        `rgba(0, 63, 255, ${selectedPatient.score}%`: 
+        `rgba(0, 63, 255, 0%`,
+        textColor: 'rgb(0,0,0)',
+
+        trailColor: '#d6d6d6',
+        backgroundColor: '#3e98c7',
+        fontWeight: 700,
+    });
     
     const wrapper = {
         height: '90vh',
@@ -113,6 +147,7 @@ function Scan(){
         height: '90vh',
         width: '100%',
         minWidth: '400px',
+        backgroundColor: 'rgba(240,240,240,50%)'
     };
     const image = {
         height: '100%',
@@ -145,6 +180,7 @@ function Scan(){
     const positiveStatus = {
         backgroundColor: 'rgb(0,63,255)',
         color: 'rgb(255,255,255)',
+        boxShadow: '5px 5px 5px rgba(0,0,0,15%)',
         textAlign: 'center',
         padding: '20px',
         width: '30%',
@@ -152,21 +188,35 @@ function Scan(){
     const negativeStatus = {
         backgroundColor: 'rgba(240,240,240,50%)',
         color: 'dimgray',
+        boxShadow: '5px 5px 5px rgba(0,0,0,15%)',
         textAlign: 'center',
         padding: '20px',
         width: '30%'
-    }
+    };
+    const circle = {
+        display: 'flex',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        gap: '10px',
+        width: '100%',
+        margin: '40px auto 30px auto',
+    };
+    const circleBar = {
+        width: '40%',
+    };
     const bar = {
         width: '100%',
         borderRadius: '2%',
         backgroundColor: 'rgba(240,240,240,50%)',
+        boxShadow: '5px 5px 5px rgba(0,0,0,15%)',
         border: '1px solid rgba(0,0,0,15%)',
         margin: '60px auto 30px auto',
 
     }
     const barFill = {
         backgroundColor: 'rgb(0,63,255)',
-        width: result?`${result[0]}%`:0,
+        // width: result?`${result[0]}%`:0,
+        width: selectedPatient && selectedPatient.score? `${selectedPatient.score}%`:0,
         height: '36px',
     }
   
@@ -192,6 +242,7 @@ function Scan(){
                     <img 
                     crossOrigin='anonymous'
                     src={`http://localhost:5000/assets/images/${xray.substring(13)}`} 
+                    alt="X-Ray"
                     style={image} 
                     ref={imageRef} /> 
                 }
@@ -203,7 +254,8 @@ function Scan(){
                         <p className="sm-text bold">Result</p>
                         <div style={group}>
                             {
-                                result && result[0]>50
+                                selectedPatient && selectedPatient.result === "Positive"
+                                // result && result[0]>50
                                 ?
                                 (
                                 <>
@@ -229,20 +281,37 @@ function Scan(){
                         </div>
                         <div>
                             <p className="sm-text bold">Abnormality Score</p>
-                            <div style={bar} >
+                            {/* <div style={bar} >
                                 <div style={barFill}/>
-                            </div>
+                            </div> */}
                             <div style={{display:'flex', justifyContent:'space-around', gap: '20px', alignItems:'center'}}>
                                 {
-                                    result && result.map((item,index)=>{
-                                        return(
-                                            <div>
-                                                <p className="md-text bold">{label[index]}</p>
-                                                <p className="md-text bold" style={{textAlign: 'center', padding:'10px 0px'}}>{Number(item).toFixed(2)}</p>
-                                            </div>
-                                        ) 
-                                    }
-                                    )
+                                    selectedPatient 
+                                    && selectedPatient.score 
+                                    &&
+                                    <div style={circle}>
+                                    <div style={circleBar}>
+                                    <CircularProgressbarWithChildren styles={positiveStyles} value={selectedPatient.score}>
+                                        <div><p style={{fontSize: 24, fontWeight: 'bold'}}>{`${(selectedPatient.score).toFixed(2)}%`}</p></div>
+                                        <div><p style={{fontSize: 16, fontWeight: 'bold'}}>COVID-19</p></div>
+                                    </CircularProgressbarWithChildren>
+                                    </div> 
+                                    <div style={circleBar}> 
+                                    <CircularProgressbarWithChildren styles={negativeStyles} value={100-selectedPatient.score}>
+                                        <div><p style={{fontSize: 24, fontWeight: 'bold'}}>{`${(100-selectedPatient.score).toFixed(2)}%`}</p></div>
+                                        <div><p style={{fontSize: 16, fontWeight: 'bold'}}>Normal</p></div>
+                                    </CircularProgressbarWithChildren>
+                                    {/* <CircularProgressbar styles={negativeStyles} initialAnimation value={100-selectedPatient.score}  text={`${(100-selectedPatient.score).toFixed(2)}%`}/> */}
+                                    </div> 
+                                    {/* <div>
+                                        <p className="md-text bold">COVID-19</p>
+                                        <p className="md-text bold" style={{textAlign: 'center', padding:'10px 0px'}}>{Number(selectedPatient.score).toFixed(2)}</p>
+                                    </div>
+                                    <div>
+                                      <p className="md-text bold">Normal</p>
+                                      <p className="md-text bold" style={{textAlign: 'center', padding:'10px 0px'}}>{(100-Number(selectedPatient.score)).toFixed(2)}</p>
+                                    </div> */}
+                                    </div>
                                 }
                             </div>
                         </div>

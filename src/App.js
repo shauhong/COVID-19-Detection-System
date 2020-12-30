@@ -18,6 +18,8 @@ import ScrollToTop from "./components/ScrollToTop";
 import Details from "./components/Details";
 import CreatePatient from './components/CreatePatient';
 import { connect, useSelector } from "react-redux";
+import AuthRoute from './utils/AuthRoute';
+import Backdrop from './components/Backdrop';
 
 
 
@@ -25,11 +27,12 @@ function App() {
   const signIn = useSelector(state=>state.auth.signIn);
   return (
     <Router>
+      <Backdrop />
       <NavBar />
       <Snackbar />
       <ScrollToTop />
       <Switch>
-        <Route path="/scan">
+        {/* <Route path="/scan">
           {signIn ? <Scan /> : <Redirect to="/" />}
         </Route>
         <Route path="/patients/:id" render={({match})=>{
@@ -46,9 +49,13 @@ function App() {
         </Route>
         <Route path="/statistics">
           {signIn ? <Statistics /> : <Redirect to="/" />}
-        </Route>
+        </Route> */}
+        <AuthRoute path="/scan" component={Scan}/>
+        <AuthRoute path="/patients/:id" component={Details}/> 
+        <AuthRoute path="/patients" component={Patients}/>
+        <AuthRoute path="/statistics" component={Statistics}/>
         <Route path="/login" component={Login} />
-        <Route path="/signup" component={SignUp} />
+        <Route path="/signup" component={SignUp} />s
         <Route path="/" exact component={Home} />
         <Route path="*" component={Error} />
       </Switch>

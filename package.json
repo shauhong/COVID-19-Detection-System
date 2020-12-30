@@ -17,6 +17,7 @@
     "google-map-react": "^2.1.9",
     "malaysia-state-flag-icon-css": "github:jwarby/malaysia-state-flag-icon-css",
     "react": "^17.0.1",
+    "react-circular-progressbar": "^2.0.3",
     "react-dom": "^17.0.1",
     "react-modal": "^3.12.1",
     "react-redux": "^7.2.2",

@@ -20,3 +20,10 @@ export const setSnackbar = (open, messageType="success", message="") => {
         message,
     }
 };
+
+export const setBackdrop = (open) => {
+    return {
+        type: "SET_BACKDROP",
+        open,
+    }
+}
