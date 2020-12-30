@@ -57,7 +57,7 @@ function CreatePatient(props){
     };
     const formControl={
         width: '100%',
-        height: '25px',
+        height: '30px',
         paddingLeft: '5px',
     };
     const subtext={
@@ -83,7 +83,7 @@ function CreatePatient(props){
     const [postal, setPostal] = useState(""); 
     const [negeri, setNegeri] = useState(""); 
     const [city, setCity] = useState(""); 
-    const [result, setResult] = useState(""); 
+    //const [result, setResult] = useState(""); 
     const [image, setImage] = useState(""); 
 
     const [nameError, setNameError] = useState("");
@@ -95,7 +95,7 @@ function CreatePatient(props){
     const [postalError, setPostalError] = useState("");
     const [negeriError, setNegeriError] = useState("");
     const [cityError, setCityError] = useState("");
-    const [resultError, setResultError] = useState("");
+    //const [resultError, setResultError] = useState("");
     const [imageError, setImageError] = useState("");
 
 
@@ -109,7 +109,7 @@ function CreatePatient(props){
         const postalError = {};
         const negeriError = {};
         const cityError = {};
-        const resultError = {};
+        //const resultError = {};
         const imageError = {};
 
 
@@ -117,49 +117,57 @@ function CreatePatient(props){
 
         if(name.trim().length < 1){
             nameError.emptyName = "Please fill in patient's name.";
-            dispatch(setSnackbar(true,'error',nameError.emptyName));
+            dispatch(setSnackbar(true,'error', nameError.emptyName));
             isValid = false;
         }
 
         if(ic.trim().length < 1){
             icError.emptyIc = "Please fill in patient's NRIC number.";
+            dispatch(setSnackbar(true,'error', icError.emptyIc));
             isValid = false;
         }
 
         if(age.trim().length < 1){
             ageError.emptyAge = "Please fill in patient's age.";
+            dispatch(setSnackbar(true,'error', ageError.emptyAge));
             isValid = false;
         }
 
         if(phone.trim().length < 1){
             phoneError.emptyPhone = "Please fill in patient's contact number.";
+            dispatch(setSnackbar(true,'error', phoneError.emptyPhone));
             isValid = false;
         }
 
         if(address.trim().length < 1){
             addressError.emptyAddress = "Please fill in patient's address.";
+            dispatch(setSnackbar(true,'error', addressError.emptyAddress));
             isValid = false;
         }
 
         if(postal.trim().length < 1){
             postalError.emptyPostal = "Please fill in patient's postal code.";
+            dispatch(setSnackbar(true,'error', postalError.emptyPostal));
             isValid = false;
         }
 
         if(negeri.trim().length < 1){
             negeriError.emptyNegeri = "Please fill in patient's state of ";
+            dispatch(setSnackbar(true,'error', negeriError.emptyNegeri));
             isValid = false;
         }
 
         if(city.trim().length < 1){
             cityError.emptyCity = "Please fill in patient's city.";
+            dispatch(setSnackbar(true,'error', cityError.emptyCity));
             isValid = false;
         }
 
-        if(result.trim().length < 1){
-            resultError.emptyResult = "Please fill in patient's scan result.";
-            isValid = false;
-        }
+        // if(result.trim().length < 1){
+        //     resultError.emptyResult = "Please fill in patient's scan result.";
+        //     dispatch(setSnackbar(true,'error', resultError.emptyResult));
+        //     isValid = false;
+        // }
 
         setNameError(nameError);
         setIcError(icError);
@@ -170,18 +178,8 @@ function CreatePatient(props){
         setPostalError(postalError);
         setNegeriError(negeriError);
         setCityError(cityError);
-        setResultError(resultError);
-        
-        console.log(nameError);
-        console.log(icError);
-        console.log(ageError);
-        console.log(genderError);
-        console.log(phoneError);
-        console.log(addressError);
-        console.log(postalError);
-        console.log(negeriError);
-        console.log(cityError);
-        console.log(resultError);   
+        //setResultError(resultError);
+
         return isValid;
     }
 
@@ -223,9 +221,9 @@ function CreatePatient(props){
         setCity(event.target.value);
     }
 
-    const changeResult = (event) => {
-        setResult(event.target.value);
-    }
+    // const changeResult = (event) => {
+    //     setResult(event.target.value);
+    // }
 
     const changeImage = (event) => {
         setImage(event.target.files[0]);
@@ -256,7 +254,7 @@ function CreatePatient(props){
                 postal: postal,
                 negeri: negeri,
                 city: city,
-                result: result,
+                //result: result,
                 image: image,
             }
 
@@ -264,6 +262,7 @@ function CreatePatient(props){
             for(let key in patient){
                 formData.append(key,patient[key]);
             }
+            
             axios.post('http://localhost:5000/patients/add', formData, {headers:headers})
             .then((response)=> {console.log(response.data)})  
             .catch((err)=>console.log(err)); 
@@ -344,7 +343,7 @@ function CreatePatient(props){
                     </div>
                 </div>
                 
-                <div style={formGroup}> 
+                {/* <div style={formGroup}> 
                         <label style={label}>Result</label>
                         <select style={formControl} onChange={changeResult}>
                             {
@@ -357,7 +356,8 @@ function CreatePatient(props){
                                 })
                             }
                         </select>
-                </div>
+                </div> */}
+
                 <div style={formGroup}> 
                     <label style={label}>Chest X-ray Image</label>
                     <input onChange={changeImage} style={formControl} type="file" accept="image/*"/>

@@ -14,6 +14,7 @@ import {Grid} from '@material-ui/core';
 import {Link} from 'react-router-dom';
 import Details from './Details';
 import { useFourThreeCardMediaStyles } from '@mui-treasury/styles/cardMedia/fourThree';
+import { useSquareCardMediaStyles } from '@mui-treasury/styles/cardMedia/square';
 
 
 
@@ -62,7 +63,7 @@ const{
 
 
   const styles = useStyles();
-  const mediaStyles = useWideCardMediaStyles();
+  const mediaStyles = useFourThreeCardMediaStyles();
   const textCardContentStyles = useN01TextInfoContentStyles();
   const shadowStyles = useBouncyShadowStyles();
 
@@ -70,7 +71,9 @@ const{
       <Card className={cx(styles.root, shadowStyles.root)}>
         <CardMedia
           classes={mediaStyles}
-          image={"https://pic1.zhimg.com/v2-57520fcc0c61fc4feb7e8f2df8864b24_b.jpeg"}
+          
+          image={`http://localhost:5000/assets/images/${props.image.substring(13)}`} 
+          //image={"https://pic1.zhimg.com/v2-57520fcc0c61fc4feb7e8f2df8864b24_b.jpeg"}
         />
         <CardContent className={styles.content}>
           <TextInfoContent
@@ -79,22 +82,6 @@ const{
             body={props.result}
           />
           <Link to = {`/patients/${props.id}`}>
-          {/*{{
-            pathname: `/patients/${props.id}`,
-            state:{
-              name: props.name,
-              ic:props.ic,
-              gender:props.gender,
-              age:props.age,
-              phone:props.phone, 
-              address: props.address,
-              postal:props.postal,
-              negeri:props.negeri,
-              city:props.city,
-              result:props.result,
-              image:props.image
-            }
-          }}*/}
       
             <Button id={props._id} fullWidth className={styles.cta}>
               More Details <ChevronRightRounded/>

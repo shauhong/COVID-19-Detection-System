@@ -25,7 +25,7 @@ function DeleteWindow(props){
     const id = props.id;
     const token = useSelector(state=>state.auth.token);
     const headers = {
-        'Content-Type': 'application/json',
+        //'Content-Type': 'application/json',
         'authorization': token,
     }
     const axios = require('axios');
