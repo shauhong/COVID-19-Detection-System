@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Scan from "./scan";
 import Patients from "./information";
+import User from "./pages/User";
 import Statistics from "./statistics/Statistics";
 import NavBar from "./components/NavBar";
 import ScrollToTop from "./components/ScrollToTop";
@@ -35,7 +36,7 @@ function App(props) {
         <Route path="/statistics">
           {props.signIn ? <Statistics /> : <Redirect to="/" />}
         </Route>
-        {/* <Route path="/statistics" component={Statistics} /> */}
+        <Route path="/users" component={User} />
 
         {/* <Route path="/scan" component={Scan} />
         <Route path="/patients/:id" component={Details} />

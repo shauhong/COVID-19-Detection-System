@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import * as actionTypes from "../store/actions";
 
 function NavBar(props) {
-  const [login, setLogin] = useState(false);
-
   function handleLogout() {
     props.emptyToken();
   }
@@ -26,6 +24,9 @@ function NavBar(props) {
             </Link>
             <Link to="/statistics">
               <li>Dashboard</li>
+            </Link>
+            <Link to="/users">
+              <li>Profile</li>
             </Link>
             <Link to="/login">
               <li onClick={handleLogout}>Logout</li>

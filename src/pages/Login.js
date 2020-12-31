@@ -130,8 +130,10 @@ function Login(props) {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setToken: token =>
-      dispatch({ type: actionTypes.SIGNEDIN, userToken: token })
+    setToken: token => {
+      console.log("HI" + token);
+      dispatch({ type: actionTypes.SIGNEDIN, userToken: token });
+    }
   };
 };
 

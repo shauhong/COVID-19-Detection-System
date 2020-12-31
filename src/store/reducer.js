@@ -8,6 +8,7 @@ const initialState = {
 function reducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.SIGNEDIN:
+      console.log("HI" + action.userToken);
       return {
         token: action.userToken,
         signIn: true

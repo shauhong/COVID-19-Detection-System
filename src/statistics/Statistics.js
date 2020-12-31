@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import { states } from "./states";
-
-function Statistics() {
+import { connect } from "react-redux";
+function Statistics(props) {
   const container = {
     display: "flex",
     width: "100%",
@@ -151,6 +151,7 @@ function Statistics() {
   };
 
   useEffect(() => {
+    console.log(props.token);
     getDataWithFetch();
   });
 
@@ -240,4 +241,8 @@ function Statistics() {
   );
 }
 
-export default Statistics;
+const mapStateToProps = state => {
+  return { token: state.token, signIn: state.signIn };
+};
+
+export default connect(mapStateToProps)(Statistics);
