@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
-import { connect } from "react-redux";
-import * as actionTypes from "../store/actions";
+import { useDispatch } from "react-redux";
+import { signIn, setSnackbar } from '../actions';
 
-function SignUp(props) {
+function SignUp() {
+  const dispatch = useDispatch();
+
   const container = {
     display: "flex",
     height: "90vh",
@@ -28,11 +30,6 @@ function SignUp(props) {
   const button = {
     height: "32px",
     width: "100%"
-  };
-  const textArea = {
-    paddingTop: "5px",
-    width: "100%",
-    paddingLeft: "5px"
   };
   const subtext = {
     fontSize: "12px",
@@ -61,7 +58,6 @@ function SignUp(props) {
   ];
 
   const history = useHistory();
-  const [errorMessage, setErrorMessage] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -109,7 +105,7 @@ function SignUp(props) {
   }
 
   function handlePage() {
-    history.push("/scan");
+    history.push("/");
   }
 
   function handleSubmit(e) {
@@ -139,11 +135,13 @@ function SignUp(props) {
       .then(json => {
         console.log("json", json);
         if (json.success) {
-          setErrorMessage(json.message);
-          props.setToken(json.token);
+          dispatch(signIn(json.token));
+          dispatch(setSnackbar(true,'success',json.message));
+          localStorage.signIn = true;
+          localStorage.token = json.token;
           handlePage();
         } else {
-          setErrorMessage(json.message);
+          dispatch(setSnackbar(true,'error',json.message));
         }
       });
   }
@@ -185,18 +183,6 @@ function SignUp(props) {
               onChange={handleFacilityName}
             />
           </div>
-          {/* <div className="form-group">
-            <label className="sm-text bold">
-              Healthcare Facility Description
-            </label>
-            <textArea
-              rows="3"
-              style={textArea}
-              type="text"
-              placeholder="Restaurant Description"
-              name="description"
-            />
-          </div> */}
           <div className="form-row">
             <div className="form-group">
               <label className="sm-text bold">Name</label>
@@ -267,22 +253,14 @@ function SignUp(props) {
               />
             </div>
           </div>
-          {/* <div className="form-group">
-            <label className="sm-text bold">Upload Image</label>
-            <input type="file" name="image" accept="image/*" />
-          </div> */}
-
-          {errorMessage && (
-            <p style={{ color: "red", textAlign: "center" }}>{errorMessage}</p>
-          )}
           <input
             type="submit"
             value="Sign Up"
             style={button}
+            // className="button bold"
             className="button bold"
             onClick={handleSubmit}
           />
-
           <Link style={subtext} to="/login">
             Back To Login Page
           </Link>
@@ -292,14 +270,4 @@ function SignUp(props) {
   );
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setToken: token =>
-      dispatch({ type: actionTypes.SIGNEDIN, userToken: token })
-  };
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(SignUp);
+export default SignUp;

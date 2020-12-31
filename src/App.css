@@ -60,11 +60,13 @@ a:visited {
 }
 
 a:hover {
-  color: rgb(0, 63, 255);
+  /* color: rgb(0, 63, 255); */
+  color: #63C5DA;
 }
 
 a:active {
-  color: rgb(76, 135, 245);
+  /* color: rgb(76, 135, 245); */
+  color: #63C5DA;
 }
 
 .xlg-text {
@@ -115,11 +117,13 @@ a:active {
 }
 
 .primary-color {
-  color: rgb(0, 63, 255);
+  /* color: rgb(0, 63, 255); */
+  color: rgb(0,68,139);
 }
 
 .secondary-color {
-  color: rgb(76, 135, 245);
+  color: #63C5DA;
+  /* color: rgb(76, 135, 245); */
 }
 
 .form-group {
@@ -145,12 +149,69 @@ a:active {
 
 .button {
   color: rgb(255, 255, 255);
-  background-color: rgb(0, 63, 255);
+  background-color: rgb(0,68,139);
+  /* background-color: rgb(0, 63, 255); */
   cursor: pointer;
   border: 0px;
   padding: 5px;
 }
 
 .button:hover {
-  background-color: rgb(76, 135, 245);
+  /* background-color: rgb(76, 135, 245); */
+    background-color:#63C5DA;
+}
+
+.invert-button{
+  background-color: rgb(255, 255, 255);
+  color: rgb(0,68,139);
+  /* background-color: rgb(0, 63, 255); */
+  cursor: pointer;
+  border: 0px;
+  padding: 5px;
+}
+
+.invert-button:hover{
+  background-color:#63C5DA;
+}
+
+.white-button{
+  /* color: rgb(255, 255, 255); */
+  background-color: rgb(255, 255, 255);
+  color: rgb(0,0,0);
+  cursor: pointer;
+  border: 0px;
+  padding: 5px;
+}
+
+.white-button:hover{
+  /* background-color: rgb(0,0,0); */
+  /* background-color:#63C5DA; */
+  background-color: #63C5DA;
+  color: rgb(255,255,255);
+}
+
+.black-button{
+  background-color: rgb(0, 0, 0);
+  color: rgb(255,255,255);
+  cursor: pointer;
+  border: 0px;
+  padding: 5px;
+}
+
+.black-button:hover{
+  color: rgb(0, 0, 0);
+  background-color: rgb(255,255,255);
+}
+
+.control-button{
+  background-color: rgb(0, 0, 0);
+  color: rgb(255,255,255);
+  cursor: pointer;
+  border: 0px;
+  padding: 5px;
+}
+
+.control-button:hover{
+  background-color: #d6d6d6;
+  color: rgb(0,0,0);
 }

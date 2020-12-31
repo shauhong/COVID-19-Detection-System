@@ -12,8 +12,15 @@ import { useN01TextInfoContentStyles } from '@mui-treasury/styles/textInfoConten
 import { useBouncyShadowStyles } from '@mui-treasury/styles/shadow/bouncy';
 import {Grid} from '@material-ui/core';
 import {Link} from 'react-router-dom';
+import Details from './Details';
+import { useFourThreeCardMediaStyles } from '@mui-treasury/styles/cardMedia/fourThree';
+import { useSquareCardMediaStyles } from '@mui-treasury/styles/cardMedia/square';
+
+
 
 const useStyles = makeStyles(() => ({
+
+
     root: {
       maxWidth: 304,
       margin: 'auto',
@@ -22,57 +29,77 @@ const useStyles = makeStyles(() => ({
       padding: 20,
     },
     content: {
-      padding: 24,
+      padding: 20,
     },
     cta: {
-      marginTop: 24,
+      marginTop: 20,
       textTransform: 'initial',
-      backgroundColor:'#85C1E9',
+      backgroundColor:'darkblue',
       color:"white",
 
+      "&:hover": {
+        background: "#63C5DA",
+      },
+    // cta: {
+    //   marginTop: 20,
+    //   textTransform: 'initial',
+    //   backgroundColor:'black',
+    //   color:"white",
+
+    //   "&:hover": {
+    //     background: "#d6d6d6",
+    //     color: 'black',
+    //   },
     },
   }));
 
 export default function PatientCard(props){
 
-    
 
-    const{
-        name,
-        IC,
-        gender,
-        age,
-        CXR,
-        status,
-    } = props;
+const{
+  name,
+  IC,
+  gender,
+  age,
+  phone,
+  address,
+  postal,
+  negeri,
+  city,
+  result,
+  image,
+  id,
+} = props;
 
 
-    const styles = useStyles();
-    const mediaStyles = useWideCardMediaStyles();
-    const textCardContentStyles = useN01TextInfoContentStyles();
-    const shadowStyles = useBouncyShadowStyles();
+  const styles = useStyles();
+  const mediaStyles = useFourThreeCardMediaStyles();
+  const textCardContentStyles = useN01TextInfoContentStyles();
+  const shadowStyles = useBouncyShadowStyles();
 
-    return (
-        <Card className={cx(styles.root, shadowStyles.root)}>
-          <CardMedia
-            classes={mediaStyles}
-            image={props.CXR}
+  return (
+      <Card className={cx(styles.root, shadowStyles.root)}>
+        <CardMedia
+          classes={mediaStyles}
+          
+          image={`http://localhost:5000/assets/images/${props.image.substring(13)}`} 
+          //image={"https://pic1.zhimg.com/v2-57520fcc0c61fc4feb7e8f2df8864b24_b.jpeg"}
+        />
+        <CardContent className={styles.content}>
+          <TextInfoContent
+            classes={textCardContentStyles}
+            heading={props.name}
+            body={props.result}
           />
-          <CardContent className={styles.content}>
-            <TextInfoContent
-              classes={textCardContentStyles}
-              heading={props.name}
-              body={status}
-            />
-            <Link to = '/patients/1'>
-              <Button color={'primary'} fullWidth className={styles.cta}>
-                More Details <ChevronRightRounded />
-              </Button>
-            </Link>
-            
-          </CardContent>
-        </Card>
-      );
+          <Link to = {`/patients/${props.id}`}>
+      
+            <Button id={props._id} fullWidth className={styles.cta}>
+              More Details <ChevronRightRounded/>
+            </Button>
+          </Link>
+        </CardContent>
+      </Card>
+    );
 
 
 
