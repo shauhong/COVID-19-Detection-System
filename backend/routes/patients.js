@@ -156,11 +156,16 @@ router.delete('/:id', verifyToken, async(req, res)=>{
 //Get Number of All Patients for Each States
 router.get('/states/all', verifyToken, async(req,res)=>{
   const number={};
+  const states = ['Wilayah Persekutuan','Selangor','Johor','Kedah','Kelantan','Melaka',
+  'Negeri Sembilan','Pahang','Penang','Perak','Perlis','Sabah','Sarawak','Terengganu'];
+  states.forEach(state=>{
+    number[state]=0;
+  });
   try{
     const patients = await Patient.find();
     patients.forEach((patient)=>{
       let state = patient.negeri;
-      number[state] = number[state]? number[state] + 1: 1;
+      number[state] = number[state] + 1;
     });
     res.json(number);
   }catch(error){
@@ -169,8 +174,13 @@ router.get('/states/all', verifyToken, async(req,res)=>{
 });
 
 //Get Number of Patients of the Facility for Each States
-router.get('/states/local', verifyToken, async(req,res)=>{
+router.get('/facility/all', verifyToken, async(req,res)=>{
   const number={};
+  const states = ['Wilayah Persekutuan','Selangor','Johor','Kedah','Kelantan','Melaka',
+  'Negeri Sembilan','Pahang','Penang','Perak','Perlis','Sabah','Sarawak','Terengganu'];
+  states.forEach(state=>{
+    number[state]=0;
+  });
   const userId = req.user;
   try{  
     const user = await User.findById(userId);

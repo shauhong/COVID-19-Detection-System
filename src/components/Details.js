@@ -130,7 +130,7 @@ function Details(props){
                 <div className="buttons">
                     {/* <button onClick={() => setEditModalIsOpen(true)} className="editButton">Edit</button> */}
                     <IconButton onClick={() => setEditModalIsOpen(true)} className="editButton">
-                        <EditIcon style={{color:'white'}}/>
+                        <EditIcon className="editIcon"/>
                     </IconButton>
                     <Modal classname="EditModal"
                         isOpen={editModalIsOpen} 
@@ -157,7 +157,7 @@ function Details(props){
 
                     {/* <button onClick={() => setDeleteModalIsOpen(true)} className="deleteButton">Delete</button> */}
                     <IconButton color={'action'} onClick={() => setDeleteModalIsOpen(true)} className="deleteButton">
-                        <DeleteForeverIcon style={{color:'white'}}/>
+                        <DeleteForeverIcon className="deleteIcon"/>
                     </IconButton>
                     
                     <Modal classname="DeleteModal"

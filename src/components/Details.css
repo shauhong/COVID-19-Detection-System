@@ -25,11 +25,10 @@ div{
     position: relative;
     min-height: 50px;
     /* background:#396592; */
+    background-color: rgb(0,68,139);
     color:white;
     border-bottom: 1px solid #DDD;
     padding-left: 12px;
-
-    background:rgb(0,0,0);
 }
 
 .header > .title{
@@ -84,10 +83,28 @@ div{
 
 .editButton:hover{
     box-shadow: 0 6px 6px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    /* color: #63C5DA; */
 }
 
 .deleteButton:hover{
     box-shadow: 0 6px 6px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    /* color: #63C5DA; */
+}
+
+.editIcon{
+    color: rgb(255,255,255);
+}
+
+.editIcon:hover{
+    color: #63C5DA;
+}
+
+.deleteIcon{
+    color: rgb(255,255,255);
+}
+
+.deleteIcon:hover{
+    color: #63C5DA;
 }
 
 .table,.table th, .table td{

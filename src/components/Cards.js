@@ -10,7 +10,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
 import SearchPatientBar from "./SearchPatientBar";
 import Modal from 'react-modal';
-import CreatePatient from '../components/CreatePatient';
+import CreatePatient from './CreatePatient';
 import background from '../assets/images/background.jpg';
 
 
@@ -67,13 +67,14 @@ const Cards = () => {
         justifyContent: 'center',
         backgroundRepeat: 'no-repeat',
         // backgroundImage: `url(${background})`,
-        backgroundImage: `url("https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/v871-aum-04_1_1.jpg?w=1300&dpr=1&fit=default&crop=default&q=80&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=d6a3341679289d1083f8599a89cad9df")`,
-        // backgroundImage: `url("https://kit8.net/images/thumbnails/580/386/detailed/4/At_the_hospital@2x.png")`,
+        // backgroundImage: `url("https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/v871-aum-04_1_1.jpg?w=1300&dpr=1&fit=default&crop=default&q=80&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=d6a3341679289d1083f8599a89cad9df")`,
+        backgroundImage: `url("https://kit8.net/images/thumbnails/580/386/detailed/4/At_the_hospital@2x.png")`,
         // backgroundImage: 'url("https://mediclinic.qodeinteractive.com/wp-content/uploads/2017/04/h9-slider-image-1b.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        // height: '500px',
-        height: '50vh',
+       
+        height: '500px',
+        // height: '50vh',
         marginBottom: '20px',
         width: '100%',
     }
@@ -83,8 +84,8 @@ const Cards = () => {
         margin:'20px',
         color:'white',
         textShadow: '5px -1px 0 black, 1px -1px 0 #000, -1px 1px 0 #000, 5px 3px 0 #000',
-        fontWeight:'700',
-        // fontFamily:'Fantasy',
+        // fontWeight:'700',
+        fontFamily:'Fantasy',
         letterSpacing:'4px',
     }
 
@@ -178,7 +179,7 @@ const Cards = () => {
         </div>
         
         {/* <button  onClick={() => setModalIsOpen(true)} style={AddNewButton}>Add Patient</button> */}
-        <button  onClick={() => setModalIsOpen(true)} style={AddNewButton} className="black-button sm-text bold shadow-effect">Add Patient</button>
+        <button  onClick={() => setModalIsOpen(true)} style={AddNewButton} className="white-button sm-text bold shadow-effect">Add Patient</button>
         <Modal classname="Modal"
             isOpen={modalIsOpen} 
             onRequestClose={() => setModalIsOpen(false)}

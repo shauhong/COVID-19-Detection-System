@@ -117,7 +117,7 @@ function Login() {
             type="submit"
             value="Login"
             // className="button bold"
-            className="control-button bold"
+            className="button bold"
             style={button}
           />
           <Link to="/signup" style={subtext}>

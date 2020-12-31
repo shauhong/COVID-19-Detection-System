@@ -62,7 +62,6 @@ function Scan(){
         tensor = tensor.toFloat().div(255).expandDims();
         console.log("Preprocessed");
         const predictions = await model.predict(tensor).data();
-        dispatch(setBackdrop(false));
         console.log("Predicted");
         console.log(predictions);
         const results = [];
@@ -83,12 +82,14 @@ function Scan(){
                 }
             );
             const json = await res.json();
+            dispatch(setBackdrop(false));
             if(res.ok){
                 dispatch(setSnackbar(true,'success',json.message));
             }else{
                 dispatch(setSnackbar(true,'error',json.message));
             }
         }catch(error){
+            dispatch(setBackdrop(false));
             dispatch(setSnackbar(true,'error','Request Error'));
         }
     }
@@ -99,15 +100,9 @@ function Scan(){
     }
 
     const positiveStyles = buildStyles({
-        // strokeLinecap: 'butt',
         textSize: '16px',
         text:'inherit',
-        // initialAnimation: true,
         pathTransitionDuration: 0.5,
-        // pathColor: selectedPatient && 
-        // selectedPatient.score ? 
-        // `rgba(0, 63, 255, ${selectedPatient.score}%`: 
-        // `rgba(0, 63, 255, 0%`,
         pathColor: selectedPatient && 
         selectedPatient.score ? 
         `rgba(0, 68, 139, ${selectedPatient.score}%`: 
@@ -115,19 +110,11 @@ function Scan(){
         textColor: 'rgb(0,0,0)',
         trailColor: '#d6d6d6',
         backgroundColor: '#3e98c7',
-        // font: 'inherit',
-        // fontWeight: 400,
     });
 
     const negativeStyles = buildStyles({
-        // strokeLinecap: 'butt',
         textSize: '16px',
-        // initialAnimation: true,
         pathTransitionDuration: 0.5,
-        // pathColor: selectedPatient && 
-        // selectedPatient.score ? 
-        // `rgba(0, 63, 255, ${100-selectedPatient.score}%`: 
-        // `rgba(0, 63, 255, 0%`,
         pathColor: selectedPatient && 
         selectedPatient.score ? 
         `rgba(0, 68, 139, ${100-selectedPatient.score}%`: 
