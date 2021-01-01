@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
-import { signIn, setSnackbar } from '../actions';
+import { signIn, setSnackbar } from "../actions";
 
 function Login() {
   const dispatch = useDispatch();
@@ -78,12 +78,12 @@ function Login() {
         console.log("json", json);
         if (json.success) {
           dispatch(signIn(json.token));
-          dispatch(setSnackbar(true,'success',json.message));
+          dispatch(setSnackbar(true, "success", json.message));
           localStorage.signIn = true;
           localStorage.token = json.token;
           handlePage();
         } else {
-          dispatch(setSnackbar(true,'error',json.message));
+          dispatch(setSnackbar(true, "error", json.message));
         }
       });
   }
@@ -129,20 +129,4 @@ function Login() {
   );
 }
 
-<<<<<<< HEAD
-const mapDispatchToProps = dispatch => {
-  return {
-    setToken: token => {
-      console.log("HI" + token);
-      dispatch({ type: actionTypes.SIGNEDIN, userToken: token });
-    }
-  };
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Login);
-=======
 export default Login;
->>>>>>> bb6c30521dfeb534443b4040c7b64a536d6fbfe0

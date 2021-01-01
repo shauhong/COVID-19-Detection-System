@@ -1,24 +1,16 @@
 import React from "react";
-<<<<<<< HEAD
-import { connect } from "react-redux";
-=======
 import { useSelector, useDispatch } from "react-redux";
-import { signOut, setSnackbar } from '../actions';
->>>>>>> bb6c30521dfeb534443b4040c7b64a536d6fbfe0
+import { signOut, setSnackbar } from "../actions";
 import { Link } from "react-router-dom";
 
-<<<<<<< HEAD
-function NavBar(props) {
-=======
 function NavBar() {
   const dispatch = useDispatch();
-  const signIn = useSelector(state=>state.auth.signIn);
+  const signIn = useSelector(state => state.auth.signIn);
 
->>>>>>> bb6c30521dfeb534443b4040c7b64a536d6fbfe0
   function handleLogout() {
     localStorage.clear();
     dispatch(signOut());
-    dispatch(setSnackbar(true,'success','Successfully Logged Out'));   
+    dispatch(setSnackbar(true, "success", "Successfully Logged Out"));
   }
 
   return (
@@ -41,14 +33,10 @@ function NavBar() {
             <Link to="/statistics">
               <li>Dashboard</li>
             </Link>
-<<<<<<< HEAD
             <Link to="/users">
               <li>Profile</li>
             </Link>
-            <Link to="/login">
-=======
             <Link to="/">
->>>>>>> bb6c30521dfeb534443b4040c7b64a536d6fbfe0
               <li onClick={handleLogout}>Logout</li>
             </Link>
           </ul>

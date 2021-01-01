@@ -17,15 +17,13 @@ import NavBar from "./components/NavBar";
 import Snackbar from "./components/Snackbar";
 import ScrollToTop from "./components/ScrollToTop";
 import Details from "./components/Details";
-import CreatePatient from './components/CreatePatient';
+import CreatePatient from "./components/CreatePatient";
 import { connect, useSelector } from "react-redux";
-import AuthRoute from './utils/AuthRoute';
-import Backdrop from './components/Backdrop';
-
-
+import AuthRoute from "./utils/AuthRoute";
+import Backdrop from "./components/Backdrop";
 
 function App() {
-  const signIn = useSelector(state=>state.auth.signIn);
+  const signIn = useSelector(state => state.auth.signIn);
   return (
     <Router>
       <Backdrop />
@@ -47,26 +45,16 @@ function App() {
 
         <Route path="/patients">
           {signIn ? <Patients /> : <Redirect to="/" />}
+          <Route path="/users" component={User} />
         </Route>
         <Route path="/statistics">
-<<<<<<< HEAD
-          {props.signIn ? <Statistics /> : <Redirect to="/" />}
-        </Route>
-        <Route path="/users" component={User} />
-
-        {/* <Route path="/scan" component={Scan} />
-        <Route path="/patients/:id" component={Details} />
-        <Route path="/patients" component={Patients} />
-        <Route path="/statistics" component={Statistics} /> */}
-
-=======
           {signIn ? <Statistics /> : <Redirect to="/" />}
         </Route> */}
-        <AuthRoute path="/scan" component={Scan}/>
-        <AuthRoute path="/patients/:id" component={Details}/> 
-        <AuthRoute path="/patients" component={Patients}/>
-        <AuthRoute path="/statistics" component={Statistics}/>
->>>>>>> bb6c30521dfeb534443b4040c7b64a536d6fbfe0
+        <AuthRoute path="/users" component={User} />
+        <AuthRoute path="/scan" component={Scan} />
+        <AuthRoute path="/patients/:id" component={Details} />
+        <AuthRoute path="/patients" component={Patients} />
+        <AuthRoute path="/statistics" component={Statistics} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />s
         <Route path="/" exact component={Home} />

@@ -89,34 +89,70 @@ router.get("/", verifyToken, async (req, res) => {
   }
 });
 
+// email: req.body.email,
+//   password: hashedPassword,
+//   name: req.body.name,
+
+//   phone: req.body.phone,
+//   facilityName: req.body.facilityName,
+//   facilityAddress: req.body.facilityAddress,
+//   postal: req.body.postal,
+//   state: req.body.state,
+//   city: req.body.city
+
 router.post("/edit", verifyToken, async (req, res) => {
   if (req.body.email) {
-    try {
-      console.log(req.body.user._id);
-      const user = await User.findById(req.body.user._id);
-      //Prob is here
-      const update = {
+    User.findByIdAndUpdate(
+      req.body.user._id,
+      {
         $set: {
           email: req.body.email
         }
-      };
-      const result = await collection.updateOne(req.body.user_id, update);
-      console.log(user);
-      res.json(user);
-    } catch (error) {
-      res.status(400).json("Error: " + error);
-    }
+      },
+      { new: true },
+      (err, result) => {
+        if (err) {
+          return res.status(422).json({ error: "error" });
+        }
+        res.json(result);
+      }
+    );
   }
-  // email: req.body.email,
-  //   password: hashedPassword,
-  //   name: req.body.name,
+});
 
-  //   phone: req.body.phone,
-  //   facilityName: req.body.facilityName,
-  //   facilityAddress: req.body.facilityAddress,
-  //   postal: req.body.postal,
-  //   state: req.body.state,
-  //   city: req.body.city
+router.put("/edit", verifyToken, async (req, res) => {
+  const userId = req.body.userId;
+  const email = req.body.email;
+  const salt = await bcrypt.genSalt();
+  const hashedEditPassword = await bcrypt.hash(req.body.password, salt);
+
+  const name = req.body.name;
+  const phone = req.body.phone;
+  const facilityName = req.body.facilityName;
+  const facilityAddress = req.body.facilityAddress;
+  const postal = req.body.postal;
+  const state = req.body.state;
+  const city = req.body.city;
+
+  try {
+    const user = await User.findById(userId);
+
+    user.email = email;
+    user.name = name;
+    user.password = hashedEditPassword;
+    user.phone = phone;
+    user.facilityName = facilityName;
+    user.facilityAddress = facilityAddress;
+    user.postal = postal;
+    user.state = state;
+    user.city = city;
+
+    const saved = await user.save();
+    res.json({ message: "User Updated", success: true, saved });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Edit User Error" });
+  }
 });
 
 module.exports = router;
