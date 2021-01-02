@@ -16,16 +16,16 @@ function Scan(){
     const [xray, setXray] = useState(null);
     const imageRef = useRef();
 
+
     useEffect(()=>{
         const fetchModel = async ()=>{
             dispatch(setBackdrop(true));
             const localModel = await tf.loadLayersModel("http://localhost:5000/assets/ResNet50/model.json");
             setModel(localModel);
-            console.log("Model Loaded");
             dispatch(setBackdrop(false));
         };
         fetchModel();
-    }, [dispatch]);
+    }, []);
 
     useEffect(()=>{
         const getPatientsRequest = async () => {
@@ -43,32 +43,17 @@ function Scan(){
                 const json = await res.json();
                 if(res.ok){
                     setPatients(json.matchPatients);
-                    console.log(json.matchPatients);
                 }else{
                     dispatch(setSnackbar(true,'error',json.message));
                 }
             }catch(error){
                 dispatch(setSnackbar(true,'error','Request Error'));
             }
-        }
+        };
         getPatientsRequest();
-    }, [result, dispatch, token]);
+    }, [result]);
 
-    const handleScan = async ()=> {
-        dispatch(setBackdrop(true));
-        const scanImage = imageRef.current;
-        let tensor = tf.browser.fromPixels(scanImage);
-        tensor = tf.image.resizeNearestNeighbor(tensor, [224,224]);
-        tensor = tensor.toFloat().div(255).expandDims();
-        console.log("Preprocessed");
-        const predictions = await model.predict(tensor).data();
-        console.log("Predicted");
-        console.log(predictions);
-        const results = [];
-        predictions.forEach((prediction,index)=>{
-            results[index] = parseFloat(prediction*100);
-        })
-        setResult(results);
+    const postResultRequest = async(results)=>{
         try{
             const res = await fetch(
                 `http://localhost:5000/patients/updateStatus/${selectedPatient._id}`,
@@ -82,7 +67,6 @@ function Scan(){
                 }
             );
             const json = await res.json();
-            dispatch(setBackdrop(false));
             if(res.ok){
                 dispatch(setSnackbar(true,'success',json.message));
             }else{
@@ -92,7 +76,27 @@ function Scan(){
             dispatch(setBackdrop(false));
             dispatch(setSnackbar(true,'error','Request Error'));
         }
-    }
+    };
+
+    const handleScan = async ()=> {
+        dispatch(setBackdrop(true));
+        const scanImage = imageRef.current;
+        let tensor = tf.browser.fromPixels(scanImage);
+        tensor = tf.image.resizeNearestNeighbor(tensor, [224,224]);
+        tensor = tensor.toFloat().div(255).expandDims();
+        const predictions = await model.predict(tensor).data();
+        const results = [];
+        predictions.forEach((prediction,index)=>{
+            results[index] = parseFloat(prediction*100);
+        })
+        setResult(results);
+        postResultRequest(results);
+        const updatedPatient = selectedPatient;
+        updatedPatient.score = results[0];
+        updatedPatient.result = results[0]>50? "Positive": "Negative";
+        setSelectedPatient(updatedPatient);
+        dispatch(setBackdrop(false));
+    };
 
     const handleClick = (patient) => {
         setSelectedPatient(patient);

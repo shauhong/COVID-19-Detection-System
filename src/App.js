@@ -49,24 +49,12 @@ function App() {
           {signIn ? <Patients /> : <Redirect to="/" />}
         </Route>
         <Route path="/statistics">
-<<<<<<< HEAD
-          {props.signIn ? <Statistics /> : <Redirect to="/" />}
-        </Route>
-        <Route path="/users" component={User} />
-
-        {/* <Route path="/scan" component={Scan} />
-        <Route path="/patients/:id" component={Details} />
-        <Route path="/patients" component={Patients} />
-        <Route path="/statistics" component={Statistics} /> */}
-
-=======
           {signIn ? <Statistics /> : <Redirect to="/" />}
         </Route> */}
         <AuthRoute path="/scan" component={Scan}/>
         <AuthRoute path="/patients/:id" component={Details}/> 
         <AuthRoute path="/patients" component={Patients}/>
         <AuthRoute path="/statistics" component={Statistics}/>
->>>>>>> bb6c30521dfeb534443b4040c7b64a536d6fbfe0
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />s
         <Route path="/" exact component={Home} />

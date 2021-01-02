@@ -129,20 +129,4 @@ function Login() {
   );
 }
 
-<<<<<<< HEAD
-const mapDispatchToProps = dispatch => {
-  return {
-    setToken: token => {
-      console.log("HI" + token);
-      dispatch({ type: actionTypes.SIGNEDIN, userToken: token });
-    }
-  };
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Login);
-=======
 export default Login;
->>>>>>> bb6c30521dfeb534443b4040c7b64a536d6fbfe0
