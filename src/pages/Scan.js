@@ -73,7 +73,6 @@ function Scan(){
                 dispatch(setSnackbar(true,'error',json.message));
             }
         }catch(error){
-            dispatch(setBackdrop(false));
             dispatch(setSnackbar(true,'error','Request Error'));
         }
     };
@@ -90,18 +89,18 @@ function Scan(){
             results[index] = parseFloat(prediction*100);
         })
         setResult(results);
-        postResultRequest(results);
         const updatedPatient = selectedPatient;
         updatedPatient.score = results[0];
         updatedPatient.result = results[0]>50? "Positive": "Negative";
         setSelectedPatient(updatedPatient);
+        postResultRequest(results);
         dispatch(setBackdrop(false));
     };
 
     const handleClick = (patient) => {
         setSelectedPatient(patient);
         setXray(patient.image);
-    }
+    };
 
     const positiveStyles = buildStyles({
         textSize: '16px',

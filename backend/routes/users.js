@@ -92,7 +92,7 @@ router.get("/", verifyToken, async (req, res) => {
 router.post("/edit", verifyToken, async (req, res) => {
   if (req.body.email) {
     try {
-      // console.log(req.body.user._id);
+      console.log(req.body.user._id);
       const user = await User.findById(req.body.user._id);
       //Prob is here
       const update = {
