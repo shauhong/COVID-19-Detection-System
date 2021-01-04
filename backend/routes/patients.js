@@ -37,7 +37,6 @@ router.get('/', verifyToken, async (req,res)=>{
       return(patient.user.facilityName === user.facilityName)
     });
     res.json({matchPatients, user});
-
   }catch(error){
     res.status(400).json({message:"Error While Finding Patient"});
   }
@@ -87,7 +86,7 @@ router.post('/updateStatus/:id', verifyToken, async(req,res)=>{
   try{
     const patient = await Patient.findById(patientId);
     patient.result = req.body.result;
-    patient.score = Number(req.body.score);s
+    patient.score = Number(req.body.score);
     const saved = await patient.save();
     res.json({message:"Successfully Updated Status", saved});
   }catch(error){
@@ -165,7 +164,8 @@ router.get('/states/all', verifyToken, async(req,res)=>{
     const patients = await Patient.find();
     patients.forEach((patient)=>{
       let state = patient.negeri;
-      number[state] = number[state] + 1;
+      if(patient.result==='Positive')
+      number[state] = number[state]+1;
     });
     res.json(number);
   }catch(error){
@@ -190,7 +190,8 @@ router.get('/facility/all', verifyToken, async(req,res)=>{
     });
     matchPatients.forEach((patient)=>{
       let state = patient.negeri;
-      number[state] = number[state]? number[state] + 1: 1;
+      if(patient.result==='Positive')
+        number[state] = number[state]+1;
     });
     res.json(number);
   }catch(error){

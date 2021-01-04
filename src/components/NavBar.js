@@ -1,16 +1,16 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { signOut, setSnackbar } from '../actions';
+import { signOut, setSnackbar } from "../actions";
 import { Link } from "react-router-dom";
 
 function NavBar() {
   const dispatch = useDispatch();
-  const signIn = useSelector(state=>state.auth.signIn);
+  const signIn = useSelector(state => state.auth.signIn);
 
   function handleLogout() {
     localStorage.clear();
     dispatch(signOut());
-    dispatch(setSnackbar(true,'success','Successfully Logged Out'));   
+    dispatch(setSnackbar(true, "success", "Successfully Logged Out"));
   }
 
   return (
@@ -32,6 +32,9 @@ function NavBar() {
             </Link>
             <Link to="/statistics">
               <li>Dashboard</li>
+            </Link>
+            <Link to="/users">
+              <li>Profile</li>
             </Link>
             <Link to="/">
               <li onClick={handleLogout}>Logout</li>
