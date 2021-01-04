@@ -141,10 +141,11 @@ function Details(props){
                             backgroundColor:'rgba(0,0,0,0.75)',
                             }, 
                             content:{
-                            marginTop:'80px',
-                            marginLeft: 'auto',
-                            marginRight:'auto',
-                            width: '50%', 
+                                marginTop:'80px',
+                                marginLeft: 'auto',
+                                marginRight:'auto',
+                                marginBottom:'50px',
+                                width: '45%',
                             }
                         }
                         }
@@ -174,6 +175,7 @@ function Details(props){
                                 marginLeft: 'auto',
                                 marginRight:'auto',
                                 width: '30%', 
+                                
                             
                             }
                         }

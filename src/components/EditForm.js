@@ -43,7 +43,7 @@ function EditForm(props){
     const button={
         width: '100%',
         height: '32px',
-        // backgroundColor: 'darkblue',
+        backgroundColor: 'darkblue',
         // color: 'rgb(255,255,255)',
         cursor: 'pointer',
         marginTop: '5px',
