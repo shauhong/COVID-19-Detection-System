@@ -1,7 +1,7 @@
 export const states = [
   {
     state: "Kedah",
-    infected: "8",
+    infected: "86",
     lat: 5.649718444,
     lng: 101.0314453,
     abb:
@@ -9,7 +9,7 @@ export const states = [
   },
   {
     state: "Perak",
-    infected: "51",
+    infected: "92",
     lat: 4.01185976,
     lng: 101.117577,
     abb:
@@ -17,7 +17,7 @@ export const states = [
   },
   {
     state: "Perlis",
-    infected: "0",
+    infected: "4",
     lat: 6.433001991,
     lng: 100.216599,
     abb:
@@ -25,7 +25,7 @@ export const states = [
   },
   {
     state: "Penang",
-    infected: "56",
+    infected: "234",
     lat: 5.417071146,
     lng: 100.4000109,
     abb:
@@ -33,7 +33,7 @@ export const states = [
   },
   {
     state: "Negeri Seremban",
-    infected: "56",
+    infected: "169",
     lat: 2.731813,
     lng: 102.252502,
     abb:
@@ -41,7 +41,7 @@ export const states = [
   },
   {
     state: "Kelantan",
-    infected: "1",
+    infected: "86",
     lat: 6.119973978,
     lng: 102.2299768,
     abb:
@@ -49,7 +49,7 @@ export const states = [
   },
   {
     state: "Sabah",
-    infected: "394",
+    infected: "389",
     lat: 5.046396097,
     lng: 118.3359704,
     abb:
@@ -57,7 +57,7 @@ export const states = [
   },
   {
     state: "Pahang",
-    infected: "9",
+    infected: "113",
     lat: 4.18400112,
     lng: 102.438057,
     abb:
@@ -65,7 +65,7 @@ export const states = [
   },
   {
     state: "Selangor",
-    infected: "268",
+    infected: "1036",
     lat: 3.066695996,
     lng: 101.5499977,
     abb:
@@ -73,7 +73,7 @@ export const states = [
   },
   {
     state: "Johor",
-    infected: "33",
+    infected: "460",
     lat: 1.4854,
     lng: 103.7618,
     abb:
@@ -81,7 +81,7 @@ export const states = [
   },
   {
     state: "Kuala Lumpur",
-    infected: "8",
+    infected: "257",
     lat: 3.519863,
     lng: 101.538116,
     abb:
@@ -89,7 +89,7 @@ export const states = [
   },
   {
     state: "Melaka",
-    infected: "9",
+    infected: "85",
     lat: 2.206414407,
     lng: 102.2464615,
     abb:
@@ -97,7 +97,7 @@ export const states = [
   },
   {
     state: "Sarawak",
-    infected: "4",
+    infected: "180",
     lat: 3.16640749,
     lng: 113.0359838,
     abb:
@@ -105,7 +105,7 @@ export const states = [
   },
   {
     state: "Terengganu",
-    infected: "9",
+    infected: "89",
     lat: 5.3117,
     lng: 103.1324,
     abb:
