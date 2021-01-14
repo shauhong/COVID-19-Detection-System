@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { setBackdrop } from '../actions';
-import Card from "./Card";
+import PatientCard from "./PatientCard";
 import {Grid} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -14,12 +14,10 @@ import CreatePatient from './CreatePatient';
 import background from '../assets/images/background.jpg';
 
 
-const Cards = () => {
+const PatientCards = () => {
     const dispatch = useDispatch();
     const AddNewButton = {
         float:'right',
-        // color: 'black',
-        // backgroundColor: 'white',
         cursor: 'pointer',
         paddingTop: '8px',
         paddingBottom: '8px',
@@ -30,7 +28,6 @@ const Cards = () => {
         border:'white',
         fontFamily:'sourceSansPro',
         fontWeight:'bold',
-
       }
       
     
@@ -66,15 +63,10 @@ const Cards = () => {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundRepeat: 'no-repeat',
-        // backgroundImage: `url(${background})`,
-        // backgroundImage: `url("https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/v871-aum-04_1_1.jpg?w=1300&dpr=1&fit=default&crop=default&q=80&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=d6a3341679289d1083f8599a89cad9df")`,
         backgroundImage: `url("https://kit8.net/images/thumbnails/580/386/detailed/4/At_the_hospital@2x.png")`,
-        // backgroundImage: 'url("https://mediclinic.qodeinteractive.com/wp-content/uploads/2017/04/h9-slider-image-1b.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-       
         height: '500px',
-        // height: '50vh',
         marginBottom: '20px',
         width: '100%',
     }
@@ -84,7 +76,6 @@ const Cards = () => {
         margin:'20px',
         color:'white',
         textShadow: '5px -1px 0 black, 1px -1px 0 #000, -1px 1px 0 #000, 5px 3px 0 #000',
-        // fontWeight:'700',
         fontFamily:'Fantasy',
         letterSpacing:'4px',
     }
@@ -178,7 +169,6 @@ const Cards = () => {
             </div>
         </div>
         
-        {/* <button  onClick={() => setModalIsOpen(true)} style={AddNewButton}>Add Patient</button> */}
         <button  onClick={() => setModalIsOpen(true)} style={AddNewButton} className="white-button sm-text bold shadow-effect">Add Patient</button>
         <Modal classname="Modal"
             isOpen={modalIsOpen} 
@@ -200,7 +190,6 @@ const Cards = () => {
         >
         <CreatePatient openModal={setModalIsOpen}/>
         <button className="closeButton " onClick={() => setModalIsOpen(false)}>Close</button>
-        {/* <button className="white-button sm-text" onClick={() => setModalIsOpen(false)}>Close</button> */}
       </Modal>
             
 
@@ -209,13 +198,11 @@ const Cards = () => {
                 {
                     patients.length>0 &&
                     patients.map((patient,index) => {
-                        // setXray(patient.image);
                         if(patient.name.toLowerCase().includes(search.toLowerCase()))
                         return(                 
                             <Grid item xs={12} sm={6} md={4} lg={3} spacing={5} className={classes.gridItem}>
                             <Link to = {'/patients/' + patient._id}  key={index}>
-                            <Card
-                                // img={`http://localhost:5000/assets/images/${xray.substring(13)}`}
+                            <PatientCard
                                 name={patient.name} ic={patient.ic} gender={patient.gender}
                                 age={patient.age} phone={patient.phone} address={patient.address}
                                 postal={patient.postal} negeri={patient.negeri} city={patient.city}
@@ -234,4 +221,4 @@ const Cards = () => {
     );
 };
 
-export default Cards;
+export default PatientCards;
