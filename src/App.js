@@ -6,6 +6,7 @@ import {
   Redirect
 } from "react-router-dom";
 import Error from "./pages/Error";
+import { useEffect } from 'react';
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -23,6 +24,7 @@ import AuthRoute from "./utils/AuthRoute";
 import Backdrop from "./components/Backdrop";
 
 function App() {
+  useEffect(()=>{document.title="COVID-19 Detection System"},[]);
   const signIn = useSelector(state => state.auth.signIn);
   return (
     <Router>
@@ -31,25 +33,6 @@ function App() {
       <Snackbar />
       <ScrollToTop />
       <Switch>
-        {/* <Route path="/scan">
-          {signIn ? <Scan /> : <Redirect to="/" />}
-        </Route>
-        <Route path="/patients/:id" render={({match})=>{
-          if(signIn){
-            return(<Details match={match}/>);
-          }else{
-            return(<Redirect to='/'/>)
-          }
-          }}
-        />
-
-        <Route path="/patients">
-          {signIn ? <Patients /> : <Redirect to="/" />}
-          <Route path="/users" component={User} />
-        </Route>
-        <Route path="/statistics">
-          {signIn ? <Statistics /> : <Redirect to="/" />}
-        </Route> */}
         <AuthRoute path="/users" component={User} />
         <AuthRoute path="/scan" component={Scan} />
         <AuthRoute path="/patients/:id" component={PatientProfile} />
@@ -64,9 +47,4 @@ function App() {
   );
 }
 
-// const mapStateToProps = state => {
-//   return { signIn: state.signIn };
-// };
-
 export default App;
-// export default connect(mapStateToProps)(App);
