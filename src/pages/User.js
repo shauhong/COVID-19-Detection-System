@@ -184,14 +184,14 @@ function User(props) {
 
             <div style={row}>
               <div style={formGroup}>
-                <label style={label}>Healthccare Facility Name </label>
+                <label style={label}>Healthcare Facility Name </label>
                 <p style={formControl}>{user.facilityName} </p>
               </div>
             </div>
 
             <div style={row}>
               <div style={formGroup}>
-                <label style={label}>Healthccare Facility Address</label>
+                <label style={label}>Healthcare Facility Address</label>
                 <p style={formControl}>{user.facilityAddress} </p>
               </div>
             </div>

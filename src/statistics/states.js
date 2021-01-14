@@ -32,7 +32,7 @@ export const states = [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Penang_%28Malaysia%29.svg/150px-Flag_of_Penang_%28Malaysia%29.svg.png"
   },
   {
-    state: "Negeri Seremban",
+    state: "Negeri Sembilan",
     infected: "169",
     lat: 2.731813,
     lng: 102.252502,
