@@ -83,7 +83,6 @@ function EnhancedTableHead(props) {
             align={headCell.id==="name"||headCell.id==="date" ? 'left' : 'right'}
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
-            // className={classes.header}
           >
             <TableSortLabel
               active={orderBy === headCell.id}

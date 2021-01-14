@@ -19,10 +19,15 @@ function Scan(){
 
     useEffect(()=>{
         const fetchModel = async ()=>{
-            dispatch(setBackdrop(true));
-            const localModel = await tf.loadLayersModel("http://localhost:5000/assets/ResNet50/model.json");
-            setModel(localModel);
-            dispatch(setBackdrop(false));
+            try{
+                dispatch(setBackdrop(true));
+                const localModel = await tf.loadLayersModel("http://localhost:5000/assets/ResNet50/model.json");
+                setModel(localModel);
+                dispatch(setBackdrop(false));
+            }catch(err){
+                dispatch(setBackdrop(false));
+                dispatch(setSnackbar(true,'error','Request Error'));
+            }
         };
         fetchModel();
     }, []);
@@ -89,11 +94,11 @@ function Scan(){
             results[index] = parseFloat(prediction*100);
         })
         setResult(results);
+        postResultRequest(results);
         const updatedPatient = selectedPatient;
         updatedPatient.score = results[0];
         updatedPatient.result = results[0]>50? "Positive": "Negative";
         setSelectedPatient(updatedPatient);
-        postResultRequest(results);
         dispatch(setBackdrop(false));
     };
 
@@ -175,7 +180,6 @@ function Scan(){
         margin: '60px auto',
     }
     const positiveStatus = {
-        // backgroundColor: 'rgb(0,63,255)',
         backgroundColor: 'rgb(0,68,139)',
         color: 'rgb(255,255,255)',
         boxShadow: '5px 5px 5px rgba(0,0,0,15%)',
@@ -202,22 +206,6 @@ function Scan(){
     const circleBar = {
         width: '40%',
     };
-    const bar = {
-        width: '100%',
-        borderRadius: '2%',
-        backgroundColor: 'rgba(240,240,240,50%)',
-        boxShadow: '5px 5px 5px rgba(0,0,0,15%)',
-        border: '1px solid rgba(0,0,0,15%)',
-        margin: '60px auto 30px auto',
-
-    }
-    const barFill = {
-        backgroundColor: 'rgb(0,63,255)',
-        // width: result?`${result[0]}%`:0,
-        width: selectedPatient && selectedPatient.score? `${selectedPatient.score}%`:0,
-        height: '36px',
-    }
-  
     const lowerPane = {
         margin:'0 auto',
         marginBottom: '20px',
@@ -253,7 +241,6 @@ function Scan(){
                         <div style={group}>
                             {
                                 selectedPatient && selectedPatient.result === "Positive"
-                                // result && result[0]>50
                                 ?
                                 (
                                 <>
@@ -279,9 +266,6 @@ function Scan(){
                         </div>
                         <div>
                             <p className="sm-text bold">Abnormality Score</p>
-                            {/* <div style={bar} >
-                                <div style={barFill}/>
-                            </div> */}
                             <div style={{display:'flex', justifyContent:'space-around', gap: '20px', alignItems:'center'}}>
                                 {
                                     selectedPatient 
@@ -319,8 +303,7 @@ function Scan(){
                                     </CircularProgressbarWithChildren>
                                     </div> 
                                     </div>
-                                    </>
-                                    
+                                    </>            
                                 }
                             </div>
                         </div>

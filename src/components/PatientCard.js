@@ -1,20 +1,97 @@
-function PatientCard(props){
-    const wrapper = {
-        display: 'grid',
-        gridTemplateColumns: '1fr 2fr 1fr 1fr',
-        textAlign: 'center',
-        backgroundColor: `${props.color}`,
-        color: `${props.textColor}`,
-        padding: '5px',
-    }
-    return(
-        <div style={wrapper}>
-            <p className="xsm-text medium">{props.id}</p>
-            <p className="xsm-text medium">{props.name}</p>
-            <p className="xsm-text medium">{props.date}</p>
-            <p className="xsm-text medium">{props.score}</p>
-        </div>
-    );
-}
+import React from 'react';
+import cx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import ChevronRightRounded from '@material-ui/icons/ChevronRightRounded';
+import TextInfoContent from '@mui-treasury/components/content/textInfo';
+import { useWideCardMediaStyles } from '@mui-treasury/styles/cardMedia/wide';
+import { useN01TextInfoContentStyles } from '@mui-treasury/styles/textInfoContent/n01';
+import { useBouncyShadowStyles } from '@mui-treasury/styles/shadow/bouncy';
+import {Grid} from '@material-ui/core';
+import {Link} from 'react-router-dom';
+import PatientProfile from './PatientProfile';
+import { useFourThreeCardMediaStyles } from '@mui-treasury/styles/cardMedia/fourThree';
+import { useSquareCardMediaStyles } from '@mui-treasury/styles/cardMedia/square';
 
-export default PatientCard;
+
+
+const useStyles = makeStyles(() => ({
+
+
+    root: {
+      maxWidth: 304,
+      margin: 'auto',
+      boxShadow: '0px 14px 80px rgba(34, 35, 58, 0.2)',
+      borderRadius: 0,
+      padding: 20,
+    },
+    content: {
+      padding: 20,
+    },
+    cta: {
+      marginTop: 20,
+      textTransform: 'initial',
+      backgroundColor:'darkblue',
+      color:"white",
+
+      "&:hover": {
+        background: "#63C5DA",
+      },
+
+    },
+  }));
+
+export default function PatientCard(props){
+
+
+const{
+  name,
+  IC,
+  gender,
+  age,
+  phone,
+  address,
+  postal,
+  negeri,
+  city,
+  result,
+  image,
+  id,
+} = props;
+
+
+  const styles = useStyles();
+  const mediaStyles = useFourThreeCardMediaStyles();
+  const textCardContentStyles = useN01TextInfoContentStyles();
+  const shadowStyles = useBouncyShadowStyles();
+
+  return (
+      <Card className={cx(styles.root, shadowStyles.root)}>
+        <CardMedia
+          classes={mediaStyles}
+          
+          image={`http://localhost:5000/assets/images/${props.image.substring(13)}`} 
+          //image={"https://pic1.zhimg.com/v2-57520fcc0c61fc4feb7e8f2df8864b24_b.jpeg"}
+        />
+        <CardContent className={styles.content}>
+          <TextInfoContent
+            classes={textCardContentStyles}
+            heading={props.name}
+            body={props.result}
+          />
+          <Link to = {`/patients/${props.id}`}>
+      
+            <Button id={props._id} fullWidth className={styles.cta}>
+              More Details <ChevronRightRounded/>
+            </Button>
+          </Link>
+        </CardContent>
+      </Card>
+    );
+
+
+
+}

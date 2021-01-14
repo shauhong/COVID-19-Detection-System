@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSnackbar } from '../actions';
 import axios from 'axios';
 
-function DeleteWindow(props){
+function DeletePatient(props){
 
     const subtext = {
         marginTop:"15px",
@@ -11,7 +12,6 @@ function DeleteWindow(props){
     }
 
     const closeButton = {
-        // backgroundColor: "darkBlue",
         backgroundColor: 'black',
         color: "white",
         paddingLeft: "8px",
@@ -26,20 +26,23 @@ function DeleteWindow(props){
     const id = props.id;
     const token = useSelector(state=>state.auth.token);
     const headers = {
-        //'Content-Type': 'application/json',
         'authorization': token,
     }
     const axios = require('axios');
+    const dispatch = useDispatch();
+
 
     const onSubmit = (event) =>{
 
         event.preventDefault();
 
         axios.delete(`http://localhost:5000/patients/${id}`,{headers:headers})
-        .then(response => {console.log(response.data)})
+        .then(response => {
+            dispatch(setSnackbar(true,'success',"Patient profile deleted successfully!"));
+            window.setTimeout(function(){window.location.href = "http://localhost:3000/patients/"},800);
+        })
         .catch((err)=>console.log(err));   
 
-        window.location.href = "http://localhost:3000/patients/";
 
     }
            
@@ -59,4 +62,4 @@ function DeleteWindow(props){
     )
 }
 
-export default DeleteWindow;
+export default DeletePatient;

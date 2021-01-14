@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSnackbar } from '../actions';
 import axios from 'axios';
 
-function EditForm(props){
+function UpdatePatient(props){
 
     const dispatch = useDispatch();
 
@@ -43,8 +43,8 @@ function EditForm(props){
     const button={
         width: '100%',
         height: '32px',
-        // backgroundColor: 'darkblue',
-        // color: 'rgb(255,255,255)',
+        backgroundColor: 'darkblue',
+        color: 'rgb(255,255,255)',
         cursor: 'pointer',
         marginTop: '5px',
     };
@@ -114,9 +114,21 @@ function EditForm(props){
             isValid = false;
         }
 
+        if (/[^a-zA-Z ][a-zA-Z\s]*$/.test(name)){
+            nameError.notName = "Please fill in a valid patient's name.";
+            dispatch(setSnackbar(true,'error', nameError.notName));
+            isValid = false;
+        }
+
         if(ic.trim().length < 1){
             icError.emptyIc = "Please fill in patient's NRIC number.";
             dispatch(setSnackbar(true,'error', icError.emptyIc));
+            isValid = false;
+        }
+
+        if(!Number(age)){
+            ageError.notAge = "Patient's age can only contain numbers.";
+            dispatch(setSnackbar(true,'error', ageError.notAge));
             isValid = false;
         }
 
@@ -135,6 +147,12 @@ function EditForm(props){
         if(address.trim().length < 1){
             addressError.emptyAddress = "Please fill in patient's address.";
             dispatch(setSnackbar(true,'error', addressError.emptyAddress));
+            isValid = false;
+        }
+
+        if(!Number(postal)){
+            postalError.notPostal = "Patient's age can only contain numbers.";
+            dispatch(setSnackbar(true,'error', postalError.notPostal));
             isValid = false;
         }
 
@@ -242,15 +260,12 @@ function EditForm(props){
             }
     
             axios.post(`http://localhost:5000/patients/update/${id}`, patient, {headers:headers})
-            .then((response)=> {console.log(response.data)})  
-            .catch((err)=>console.log(err)) 
-            
-            window.location.reload(true);
-        }
-
-        
-        
-        
+            .then((response)=> {
+                dispatch(setSnackbar(true,'success',"Patient profile updated successfully!"));
+                window.setTimeout(function(){window.location.reload()},600);
+            })  
+            .catch((err)=>console.log(err))   
+        }        
     }
 
 
@@ -323,37 +338,11 @@ function EditForm(props){
                         <input onChange={changeCity} style={formControl} type="text" placeholder={city} name="city"/>
                     </div>
                 </div>
-                
-                {/* <div style={formGroup}> 
-                        <label style={label}>Result</label>
-                        <select onChange={changeResult} style={formControl}>
-                            {
-                                results.map((result,index)=>{
-                                    return(
-                                        result===''
-                                        ?<option key={index} value={result} disabled selected>{result}</option>
-                                        :<option key={index} value={result}>{result}</option>
-                                    );
-                                })
-                            }
-                        </select>
-                </div> 
-                <div style={formGroup}> 
-                    <label style={label}>Chest X-ray Image</label>
-                    <input onChange={changeImage} style={formControl} type="text"/>
-                </div>*/}
-
-                <div style={formGroup}> 
-                    <label style={label}>Chest X-ray Image</label>
-                    <input onChange={changeImage} style={formControl} type="file" accept="image/*"/>
-                </div> 
-
-                {/* <input type="submit" value="Save" style={button}/> */}
-                <input type="submit" value="Save" style={button} className="control-button"/>
+                <input type="submit" value="Save" style={button}/>
                 
             </form>
         </div>
     )
 }
 
-export default EditForm;
+export default UpdatePatient;
