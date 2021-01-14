@@ -83,7 +83,6 @@ function CreatePatient(props){
     const [postal, setPostal] = useState(""); 
     const [negeri, setNegeri] = useState(""); 
     const [city, setCity] = useState(""); 
-    //const [result, setResult] = useState(""); 
     const [image, setImage] = useState(""); 
 
     const [nameError, setNameError] = useState("");
@@ -95,7 +94,6 @@ function CreatePatient(props){
     const [postalError, setPostalError] = useState("");
     const [negeriError, setNegeriError] = useState("");
     const [cityError, setCityError] = useState("");
-    //const [resultError, setResultError] = useState("");
     const [imageError, setImageError] = useState("");
 
 
@@ -121,9 +119,21 @@ function CreatePatient(props){
             isValid = false;
         }
 
+        if (/[./'][^a-zA-Z][a-zA-Z\s]*$/.test(name)){
+            nameError.notName = "Please fill in a valid patient's name.";
+            dispatch(setSnackbar(true,'error', nameError.notName));
+            isValid = false;
+        }
+
         if(ic.trim().length < 1){
             icError.emptyIc = "Please fill in patient's NRIC number.";
             dispatch(setSnackbar(true,'error', icError.emptyIc));
+            isValid = false;
+        }
+
+        if(!Number(age)){
+            ageError.notAge = "Patient's age can only contain numbers.";
+            dispatch(setSnackbar(true,'error', ageError.notAge));
             isValid = false;
         }
 
@@ -145,6 +155,12 @@ function CreatePatient(props){
             isValid = false;
         }
 
+        if(!Number(postal)){
+            postalError.notPostal = "Patient's age can only contain numbers.";
+            dispatch(setSnackbar(true,'error', postalError.notPostal));
+            isValid = false;
+        }
+
         if(postal.trim().length < 1){
             postalError.emptyPostal = "Please fill in patient's postal code.";
             dispatch(setSnackbar(true,'error', postalError.emptyPostal));
@@ -163,12 +179,6 @@ function CreatePatient(props){
             isValid = false;
         }
 
-        // if(result.trim().length < 1){
-        //     resultError.emptyResult = "Please fill in patient's scan result.";
-        //     dispatch(setSnackbar(true,'error', resultError.emptyResult));
-        //     isValid = false;
-        // }
-
         setNameError(nameError);
         setIcError(icError);
         setAgeError(ageError);
@@ -178,8 +188,6 @@ function CreatePatient(props){
         setPostalError(postalError);
         setNegeriError(negeriError);
         setCityError(cityError);
-        //setResultError(resultError);
-
         return isValid;
     }
 
@@ -221,10 +229,6 @@ function CreatePatient(props){
         setCity(event.target.value);
     }
 
-    // const changeResult = (event) => {
-    //     setResult(event.target.value);
-    // }
-
     const changeImage = (event) => {
         setImage(event.target.files[0]);
     }
@@ -254,7 +258,6 @@ function CreatePatient(props){
                 postal: postal,
                 negeri: negeri,
                 city: city,
-                //result: result,
                 image: image,
             }
 
@@ -264,10 +267,17 @@ function CreatePatient(props){
             }
             
             axios.post('http://localhost:5000/patients/add', formData, {headers:headers})
-            .then((response)=> {console.log(response.data)})  
-            .catch((err)=>console.log(err)); 
-            
-            window.location.reload(true);
+            .then((response)=> {
+                dispatch(setSnackbar(true,'success',"Patient profile added successfully!"));
+                window.setTimeout(function(){window.location.reload()},800);
+            })  
+            .catch(function(error) {
+                if (error.response) {
+                  console.log(error.response.data);
+                  dispatch(setSnackbar(true,'error',"No image is uploaded."));
+                } 
+              }
+            )         
         }
     }
 
@@ -324,6 +334,10 @@ function CreatePatient(props){
                         <input onChange={changePostal} style={formControl} type="text" placeholder="Postal Code" name="postal code"/>
                     </div>
                     <div style={formGroup}> 
+                        <label style={label}>City</label>
+                        <input onChange={changeCity} style={formControl} type="text" placeholder="City" name="city"/>
+                    </div>
+                    <div style={formGroup}> 
                         <label style={label}>State</label>
                         <select style={formControl} onChange={changeNegeri}>
                             {
@@ -337,26 +351,9 @@ function CreatePatient(props){
                             }
                         </select>
                     </div>
-                    <div style={formGroup}> 
-                        <label style={label}>City</label>
-                        <input onChange={changeCity} style={formControl} type="text" placeholder="City" name="city"/>
-                    </div>
+                    
                 </div>
                 
-                {/* <div style={formGroup}> 
-                        <label style={label}>Result</label>
-                        <select style={formControl} onChange={changeResult}>
-                            {
-                                results.map((result,index)=>{
-                                    return(
-                                        result===''
-                                        ?<option key={index} value={result} disabled selected>Result</option>
-                                        :<option key={index} value={result}>{result}</option>
-                                    );
-                                })
-                            }
-                        </select>
-                </div> */}
 
                 <div style={formGroup}> 
                     <label style={label}>Chest X-ray Image</label>
@@ -364,7 +361,7 @@ function CreatePatient(props){
                 </div>
                     
                  
-                <input type="submit" value="Save" style={button}/>
+                <input type="submit" value="Save" style={button} />
             </form>
         </div>
     )

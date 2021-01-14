@@ -16,7 +16,7 @@ import Statistics from "./statistics/Statistics";
 import NavBar from "./components/NavBar";
 import Snackbar from "./components/Snackbar";
 import ScrollToTop from "./components/ScrollToTop";
-import Details from "./components/Details";
+import PatientProfile from "./components/PatientProfile";
 import CreatePatient from "./components/CreatePatient";
 import { connect, useSelector } from "react-redux";
 import AuthRoute from "./utils/AuthRoute";
@@ -52,7 +52,7 @@ function App() {
         </Route> */}
         <AuthRoute path="/users" component={User} />
         <AuthRoute path="/scan" component={Scan} />
-        <AuthRoute path="/patients/:id" component={Details} />
+        <AuthRoute path="/patients/:id" component={PatientProfile} />
         <AuthRoute path="/patients" component={Patients} />
         <AuthRoute path="/statistics" component={Statistics} />
         <Route path="/login" component={Login} />

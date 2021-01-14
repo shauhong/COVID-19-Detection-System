@@ -1,7 +1,7 @@
-import App from './App';
+import Patient from './Patient';
 function Information(){
     return(
-        <App/>
+        <Patient/>
     );
 }
 

@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import './Details.css';
 import Modal from 'react-modal';
-import EditForm from "./EditForm";
-import DeleteWindow from "./DeleteWindow";
+import UpdatePatient from "./UpdatePatient";
+import DeletePatient from "./DeletePatient";
 import { ViewAgendaRounded } from '@material-ui/icons';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
@@ -12,9 +12,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 
-
-
-function Details(props){
+function PatientProfile(props){
 
     const wrapper={
         paddingLeft:'15px',
@@ -141,15 +139,16 @@ function Details(props){
                             backgroundColor:'rgba(0,0,0,0.75)',
                             }, 
                             content:{
-                            marginTop:'80px',
-                            marginLeft: 'auto',
-                            marginRight:'auto',
-                            width: '50%', 
+                                marginTop:'120px',
+                                marginLeft: 'auto',
+                                marginRight:'auto',
+                                marginBottom:'80px',
+                                width: '45%',
                             }
                         }
                         }
                     >
-                        <EditForm id={id} name={name} ic={ic} age={age} gender={gender} phone={phone} address={address} postal={postal} negeri={negeri} city={city} result={result} image={image}/>
+                        <UpdatePatient id={id} name={name} ic={ic} age={age} gender={gender} phone={phone} address={address} postal={postal} negeri={negeri} city={city} result={result} image={image}/>
                         {/* <button className="closeButton" onClick={() => setEditModalIsOpen(false)}>Close</button> */}
                         <button className="closeButton" onClick={() => setEditModalIsOpen(false)}>Close</button>
                     </Modal>
@@ -174,12 +173,13 @@ function Details(props){
                                 marginLeft: 'auto',
                                 marginRight:'auto',
                                 width: '30%', 
+                                
                             
                             }
                         }
                         }
                     >
-                        <DeleteWindow id={id} />
+                        <DeletePatient id={id} />
                         <div>
                             <button className="closeButton" onClick={() => setDeleteModalIsOpen(false)}>Cancel</button>
                         </div>
@@ -244,4 +244,4 @@ function Details(props){
 
 }
 
-export default Details;
+export default PatientProfile;
