@@ -89,11 +89,11 @@ function Scan(){
             results[index] = parseFloat(prediction*100);
         })
         setResult(results);
+        postResultRequest(results);
         const updatedPatient = selectedPatient;
         updatedPatient.score = results[0];
         updatedPatient.result = results[0]>50? "Positive": "Negative";
         setSelectedPatient(updatedPatient);
-        postResultRequest(results);
         dispatch(setBackdrop(false));
     };
 

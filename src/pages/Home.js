@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import background from '../assets/images/background.jpg';
+// import background from '../assets/images/0001.jpg';
 import About from '../components/About';
 
 function Home(){
