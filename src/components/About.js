@@ -1,8 +1,6 @@
-  
 import male from '../assets/images/male.jpg'
 import female from '../assets/images/female.jpg'
 function About(){
-    
     const wrapper={
         height: '90vh'
     }
@@ -40,26 +38,6 @@ function About(){
     };
 
     return(
-        // <div style={wrapper}>
-        //     <div style={title}><p className="xlg-text bold primary-color">Meet Our Team</p></div>
-        //     <div style={team}>
-        //         <div className="md-text bold" style={teamMember}>
-        //             <div style={portraitBox}><img src={male} alt="Logo" style={portrait} /></div>
-        //             <p>Lim Shau Hong</p>
-        //             <p className="secondary-color">COVID-19 Detection</p>
-        //         </div> 
-        //         <div className="md-text bold" style={teamMember}>
-        //             <div style={portraitBox}><img src={male} alt="Logo" style={portrait} /></div>
-        //             <p>Ng Jing Xuan</p>
-        //             <p className="secondary-color">Statistics Dashboard</p>
-        //         </div>
-        //         <div className="md-text bold" style={teamMember}>
-        //             <div style={portraitBox}><img src={female} alt="Logo" style={portrait} /></div>
-        //             <p>Yeo Pui Yan</p>
-        //             <p className="secondary-color">Patient Information</p>
-        //         </div>
-        //     </div>
-        // </div>
         <div style={wrapper}>
         <div style={title}><p className="xlg-text bold primary-color">Meet Our Team</p></div>
         <div style={team}>

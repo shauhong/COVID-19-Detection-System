@@ -257,7 +257,6 @@ function SignUp() {
             type="submit"
             value="Sign Up"
             style={button}
-            // className="button bold"
             className="button bold"
             onClick={handleSubmit}
           />

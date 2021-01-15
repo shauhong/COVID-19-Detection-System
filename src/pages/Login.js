@@ -60,8 +60,6 @@ function Login() {
     // Grab state
     e.preventDefault();
 
-    // const { email, password } = this.state;
-
     // Post request to backend
     fetch("http://localhost:5000/users/login", {
       method: "POST",
@@ -116,7 +114,6 @@ function Login() {
           <input
             type="submit"
             value="Login"
-            // className="button bold"
             className="button bold"
             style={button}
           />

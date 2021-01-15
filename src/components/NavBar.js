@@ -57,19 +57,4 @@ function NavBar() {
   );
 }
 
-// const mapStateToProps = state => {
-//   return { token: state.token, signIn: state.signIn };
-// };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     emptyToken: () => dispatch({ type: actionTypes.SIGNEDOUT })
-//   };
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(NavBar);
-
 export default NavBar;

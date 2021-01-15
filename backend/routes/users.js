@@ -89,17 +89,6 @@ router.get("/", verifyToken, async (req, res) => {
   }
 });
 
-// email: req.body.email,
-//   password: hashedPassword,
-//   name: req.body.name,
-
-//   phone: req.body.phone,
-//   facilityName: req.body.facilityName,
-//   facilityAddress: req.body.facilityAddress,
-//   postal: req.body.postal,
-//   state: req.body.state,
-//   city: req.body.city
-
 router.post("/edit", verifyToken, async (req, res) => {
   if (req.body.email) {
     User.findByIdAndUpdate(

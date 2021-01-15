@@ -16,7 +16,6 @@ function Scan(){
     const [xray, setXray] = useState(null);
     const imageRef = useRef();
 
-
     useEffect(()=>{
         const fetchModel = async ()=>{
             try{
@@ -93,11 +92,11 @@ function Scan(){
         predictions.forEach((prediction,index)=>{
             results[index] = parseFloat(prediction*100);
         })
-        setResult(results);
         postResultRequest(results);
         const updatedPatient = selectedPatient;
         updatedPatient.score = results[0];
         updatedPatient.result = results[0]>50? "Positive": "Negative";
+        setResult(results);
         setSelectedPatient(updatedPatient);
         dispatch(setBackdrop(false));
     };
